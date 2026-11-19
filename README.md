@@ -29,12 +29,32 @@ districts, Maharashtra. Available in Marathi, English and Hindi.
 ```bash
 git clone <repo-url> konkan-discovery
 cd konkan-discovery
-cp .env.example .env      # then fill in local values; never commit .env
+cp .env.example .env      # then replace every `change-me` with a generated secret
 npm install
 npm run format:check
 ```
 
-Further setup (backend, database, apps) will be added as each Sprint 0 module is completed.
+### Backend stack (Docker Compose)
+
+```bash
+docker compose up -d --build --wait     # db (PostGIS) -> migrate -> api
+curl http://127.0.0.1:8000/api/v1/health/ready
+docker compose logs -f api
+docker compose down                     # stop (data kept); `down -v` also DELETES data
+```
+
+| Service   | Purpose                                         | Dev port (127.0.0.1 only) |
+| --------- | ----------------------------------------------- | ------------------------- |
+| `db`      | PostgreSQL 17 + PostGIS 3.7                     | 5432                      |
+| `migrate` | One-shot `alembic upgrade head` (migrator role) | none                      |
+| `api`     | FastAPI (app role, live reload in dev)          | 8000                      |
+| `redis`   | Optional: `docker compose --profile redis up`   | none                      |
+
+`compose.yaml` alone is production-like and publishes no ports; `compose.override.yaml` adds
+dev ports and live reload. See [`apps/backend/README.md`](apps/backend/README.md) and
+[`docs/database/README.md`](docs/database/README.md).
+
+Further setup (web, admin, mobile) will be added as each Sprint 0 module is completed.
 
 ## Documentation
 

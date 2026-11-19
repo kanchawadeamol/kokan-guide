@@ -12,9 +12,22 @@ from typing import Annotated, Self
 
 from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+from sqlalchemy import URL
 
-# apps/backend/app/core/config.py -> repository root is four levels up.
-_REPO_ROOT_ENV = Path(__file__).resolve().parents[4] / ".env"
+
+def find_repo_env_file(start: Path) -> Path | None:
+    """Return the `.env` beside the nearest ancestor containing `.env.example`.
+
+    Works at any directory depth. In containers there is no `.env.example`, so this returns
+    None and settings come purely from the environment.
+    """
+    for directory in start.resolve().parents:
+        if (directory / ".env.example").is_file():
+            return directory / ".env"
+    return None
+
+
+_REPO_ROOT_ENV = find_repo_env_file(Path(__file__))
 
 _MIN_JWT_SECRET_LENGTH = 32
 
@@ -37,12 +50,19 @@ class Settings(BaseSettings):
     app_env: Environment = Environment.DEVELOPMENT
     log_level: str = "INFO"
 
-    # Database (used from Sprint 0.3 onwards)
+    # Database. Two roles, least privilege:
+    #   migrator: owns schema objects, runs Alembic (DDL)
+    #   app:      used by the API at runtime (DML only)
     postgres_host: str = "localhost"
-    postgres_port: int = 5432
+    postgres_port: int = Field(default=5432, gt=0, lt=65536)
     postgres_db: str = "konkan"
+    db_migrator_user: str = "konkan_migrator"
+    db_migrator_password: SecretStr = SecretStr("")
     db_app_user: str = "konkan_app"
     db_app_password: SecretStr = SecretStr("")
+    db_pool_size: int = Field(default=5, gt=0)
+    db_max_overflow: int = Field(default=10, ge=0)
+    db_connect_timeout_seconds: float = Field(default=5.0, gt=0)
 
     # Auth
     jwt_secret_key: SecretStr = SecretStr("")
@@ -88,6 +108,25 @@ class Settings(BaseSettings):
             if any(o.startswith("http://") for o in self.cors_allowed_origins):
                 raise ValueError(f"CORS origins must use https in {self.app_env}")
         return self
+
+    def _database_url(self, user: str, password: SecretStr) -> URL:
+        # URL.create escapes special characters in credentials safely.
+        return URL.create(
+            "postgresql+asyncpg",
+            username=user,
+            password=password.get_secret_value(),
+            host=self.postgres_host,
+            port=self.postgres_port,
+            database=self.postgres_db,
+        )
+
+    @property
+    def app_database_url(self) -> URL:
+        return self._database_url(self.db_app_user, self.db_app_password)
+
+    @property
+    def migrator_database_url(self) -> URL:
+        return self._database_url(self.db_migrator_user, self.db_migrator_password)
 
     @property
     def is_production(self) -> bool:

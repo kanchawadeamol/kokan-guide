@@ -37,7 +37,6 @@ include = ["app*"]
 [tool.ruff]
 target-version = "py312"
 line-length = 100
-extend-exclude = ["migrations/versions"]
 
 [tool.ruff.lint]
 select = [
@@ -66,7 +65,12 @@ python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
 warn_unreachable = true
-files = ["app", "tests"]
+files = ["app", "tests", "migrations"]
+
+[[tool.mypy.overrides]]
+# asyncpg ships no type information; only exception classes are imported directly.
+module = ["asyncpg", "asyncpg.*"]
+ignore_missing_imports = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
@@ -78,7 +82,9 @@ warn_required_dynamic_aliases = true
 testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-addopts = "-ra --strict-markers --strict-config"
+# Integration tests need the Compose database; run them with `pytest -m integration`.
+addopts = "-ra --strict-markers --strict-config -m 'not integration'"
+markers = ["integration: requires the PostgreSQL/PostGIS database from docker compose"]
 filterwarnings = ["error"]
 
 [tool.coverage.run]

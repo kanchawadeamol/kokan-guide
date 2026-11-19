@@ -1,7 +1,9 @@
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
 
-from app.core.config import Environment
+from app.core.config import Environment, find_repo_env_file
 from tests.conftest import SettingsFactory
 
 STRONG_SECRET = "x" * 64
@@ -88,3 +90,17 @@ def test_secrets_are_not_exposed_in_repr(make_settings: SettingsFactory) -> None
 def test_unknown_environment_rejected(make_settings: SettingsFactory) -> None:
     with pytest.raises(ValidationError):
         make_settings(app_env="prod")
+
+
+def test_env_file_found_beside_repo_marker(tmp_path: Path) -> None:
+    (tmp_path / ".env.example").touch()
+    module = tmp_path / "apps" / "backend" / "app" / "core" / "config.py"
+
+    assert find_repo_env_file(module) == tmp_path / ".env"
+
+
+def test_env_file_lookup_handles_shallow_paths_without_marker(tmp_path: Path) -> None:
+    # Regression: container layout /srv/app/core/config.py has fewer than 5 parents.
+    module = tmp_path / "app" / "core" / "config.py"
+
+    assert find_repo_env_file(module) is None

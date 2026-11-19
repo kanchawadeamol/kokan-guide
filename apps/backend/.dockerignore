@@ -1,0 +1,12 @@
+# Allow-list: only what the image needs.
+*
+!app/
+!migrations/
+!alembic.ini
+!requirements.lock
+!requirements-dev.lock
+!pyproject.toml
+!tests/
+
+**/__pycache__
+**/*.pyc

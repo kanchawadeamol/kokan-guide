@@ -31,17 +31,29 @@ Only tick an item after it has actually been run and checked.
 - [x] OpenAPI docs served under `/api/v1/docs`, disabled in production
 - [x] Ruff (incl. bandit rules), Mypy strict, Pytest + HTTPX: 37 tests pass, 98% coverage
 - [x] Smoke-tested with real uvicorn server; `pip-audit`: no known vulnerabilities
-- [ ] Dependency lock file for reproducible Docker builds (do in 0.3)
-- [ ] Readiness endpoint checking DB/Redis (do in 0.3 once services exist)
+- [x] Dependency lock files (hash-pinned, generated in Linux image): done in 0.3
+- [x] Readiness endpoint `GET /api/v1/health/ready` (DB + PostGIS, 503 when not ready): 0.3
 
 ### 0.3 Docker & database
 
-- [ ] Start Docker Desktop (daemon was not running during audit)
-- [ ] Compose: PostgreSQL 17 + PostGIS 3.7, Redis (optional profile), backend
-- [ ] Health checks, named volumes, DB not published in production config
-- [ ] Least-privilege DB roles (owner vs app runtime)
-- [ ] Multi-stage, non-root backend Dockerfile
-- [ ] Alembic connected, PostGIS extension migration
+- [x] Docker Desktop running (engine 28.0.4; started via `docker desktop start`)
+- [x] Compose: PostGIS `17-3.7` (PG 17.12, PostGIS 3.7.0), `migrate` one-shot, `api`,
+      Redis 8 under optional `redis` profile
+- [x] Health checks on db (TCP, so not healthy until init scripts finish), api, redis
+- [x] Named volumes; base `compose.yaml` publishes no ports (verified); dev override binds
+      127.0.0.1 only
+- [x] Three DB roles: superuser (init), migrator (DDL), app (DML only). Verified by 14
+      integration tests: no DDL, no superuser flags, DML on migrator tables, cannot connect
+      to `postgres`/`template1`/`template_postgis`
+- [x] Removed unused `postgis_topology` and its `search_path` entry (was breaking
+      `alembic check`)
+- [x] Multi-stage Dockerfile; runtime image 222 MB, uid 10001, code read-only, no dev tools;
+      production-like run verified with read-only rootfs + `no-new-privileges`
+- [x] Alembic (async, migrator role, URL from settings) + migration `0001` (PostGIS);
+      `alembic check` clean
+- [x] Backup/restore commands documented and verified (`docs/database/README.md`)
+- [x] Unit tests also pass inside the Linux dev container (41 passed)
+- [ ] Redis not yet used by the backend (wire up with rate limiting in Sprint 2/7)
 
 ### 0.4 Shared packages
 

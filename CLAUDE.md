@@ -55,7 +55,9 @@ npm test               # test all workspaces
 ### Backend (`apps/backend`, venv at `apps/backend/.venv`)
 
 ```bash
-.venv/Scripts/python -m pytest --cov=app
+.venv/Scripts/python -m pytest --cov=app          # unit (no DB)
+.venv/Scripts/python -m pytest -m integration     # needs `docker compose up` (from root)
+.venv/Scripts/alembic check
 .venv/Scripts/ruff check . && .venv/Scripts/ruff format --check .
 .venv/Scripts/mypy
 .venv/Scripts/uvicorn app.main:create_app --factory --reload
@@ -63,6 +65,16 @@ npm test               # test all workspaces
 
 There is no module-level `app` object; always use `create_app()` (`--factory` for uvicorn).
 Details in `apps/backend/README.md`.
+
+### Docker / database
+
+- `docker compose up -d --build --wait` from the root starts db → migrate → api.
+- Three DB roles: superuser (init only), migrator (DDL, Alembic), app (DML only). The API
+  must never receive migrator or superuser credentials.
+- `docker compose down -v` deletes the database volume. Ask the user before running it.
+- After changing `pyproject.toml` dependencies, regenerate lock files with `scripts/lock.sh`
+  inside the Linux image (see backend README). Never hand-edit `requirements*.lock`.
+- In Git Bash, prefix `docker` commands with container paths with `MSYS_NO_PATHCONV=1`.
 
 ## Environment notes
 

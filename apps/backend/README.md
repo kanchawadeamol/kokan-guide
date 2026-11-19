@@ -30,19 +30,49 @@ py -3.12 -m venv .venv
 
 ## Run
 
+Recommended: the full stack via Docker Compose from the repository root (see root README).
+The API then runs in a container with live reload of `app/`.
+
+To run the API directly on the host against the Compose database:
+
 ```powershell
-.venv\Scripts\uvicorn app.main:create_app --factory --reload --port 8000
+.venv\Scripts\uvicorn app.main:create_app --factory --reload --port 8001
 ```
 
-- Health: http://localhost:8000/api/v1/health
-- OpenAPI docs (disabled when `APP_ENV=production`): http://localhost:8000/api/v1/docs
+- Liveness: http://127.0.0.1:8000/api/v1/health (process up; no dependency checks)
+- Readiness: http://127.0.0.1:8000/api/v1/health/ready (DB + PostGIS; `503` if not ready)
+- OpenAPI docs (disabled when `APP_ENV=production`): http://127.0.0.1:8000/api/v1/docs
 
 Settings come from environment variables, falling back to the repository-root `.env`.
+Use `POSTGRES_HOST=127.0.0.1`, not `localhost`: on Windows, `localhost` tries IPv6 first and
+each refused attempt adds about 2 s.
+
+## Docker image
+
+`Dockerfile` stages: `deps` → `deps-dev` → `dev` (tests, reload) / `runtime` (production,
+default). Runtime runs as uid 10001, code is root-owned and read-only, no dev tools, and
+Compose runs it with a read-only root filesystem and `no-new-privileges`.
+
+Dependencies install from **hash-pinned lock files** (`requirements.lock`,
+`requirements-dev.lock`). After changing dependencies in `pyproject.toml`, regenerate them
+inside the same Linux image the Dockerfile uses (from the repository root):
+
+```bash
+MSYS_NO_PATHCONV=1 docker run --rm -v "$PWD/apps/backend:/src" -w /src \
+  python:3.12-slim-bookworm sh scripts/lock.sh
+```
+
+## Database and migrations
+
+See [`docs/database/README.md`](../../docs/database/README.md) for roles, migrations and
+backup/restore.
 
 ## Quality checks
 
 ```powershell
-.venv\Scripts\python -m pytest --cov=app   # tests + coverage
+.venv\Scripts\python -m pytest --cov=app   # unit tests + coverage (no database needed)
+.venv\Scripts\python -m pytest -m integration   # live DB tests (needs `docker compose up`)
+.venv\Scripts\alembic check                # ORM models match the migrated database
 .venv\Scripts\ruff check .                 # lint (incl. bandit security rules)
 .venv\Scripts\ruff format --check .        # formatting
 .venv\Scripts\mypy                         # strict type checking
