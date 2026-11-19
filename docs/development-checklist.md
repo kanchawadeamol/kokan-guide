@@ -22,10 +22,17 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.2 Backend scaffold (`apps/backend`)
 
-- [ ] `pyproject.toml` (FastAPI, Pydantic, SQLAlchemy 2.x, Alembic, async driver)
-- [ ] Settings via pydantic-settings, structured logging
-- [ ] `/api/v1/health` endpoint
-- [ ] Ruff, Mypy, Pytest + HTTPX configured, first test passing
+- [x] `pyproject.toml` (FastAPI 0.165, Pydantic 2.14, SQLAlchemy 2.0.58, Alembic 1.20,
+      asyncpg, GeoAlchemy2, structlog)
+- [x] Settings via pydantic-settings with production safety validation (JWT secret length,
+      https-only CORS, no wildcard origins); secrets as `SecretStr`
+- [x] Structured logging (JSON in staging/production) + request ID middleware
+- [x] `GET /api/v1/health` liveness endpoint (service layer, Pydantic schema)
+- [x] OpenAPI docs served under `/api/v1/docs`, disabled in production
+- [x] Ruff (incl. bandit rules), Mypy strict, Pytest + HTTPX: 37 tests pass, 98% coverage
+- [x] Smoke-tested with real uvicorn server; `pip-audit`: no known vulnerabilities
+- [ ] Dependency lock file for reproducible Docker builds (do in 0.3)
+- [ ] Readiness endpoint checking DB/Redis (do in 0.3 once services exist)
 
 ### 0.3 Docker & database
 

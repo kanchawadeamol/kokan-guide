@@ -52,7 +52,17 @@ npm run typecheck      # type check all workspaces
 npm test               # test all workspaces
 ```
 
-Backend and Docker commands are documented in `README.md` once those modules exist.
+### Backend (`apps/backend`, venv at `apps/backend/.venv`)
+
+```bash
+.venv/Scripts/python -m pytest --cov=app
+.venv/Scripts/ruff check . && .venv/Scripts/ruff format --check .
+.venv/Scripts/mypy
+.venv/Scripts/uvicorn app.main:create_app --factory --reload
+```
+
+There is no module-level `app` object; always use `create_app()` (`--factory` for uvicorn).
+Details in `apps/backend/README.md`.
 
 ## Environment notes
 
