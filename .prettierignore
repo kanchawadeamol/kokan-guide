@@ -1,0 +1,12 @@
+node_modules/
+package-lock.json
+dist/
+build/
+.next/
+.expo/
+coverage/
+playwright-report/
+test-results/
+apps/backend/
+apps/mobile/android/
+apps/mobile/ios/
