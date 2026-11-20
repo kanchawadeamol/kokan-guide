@@ -11,7 +11,7 @@ router = APIRouter(prefix="/health", tags=["health"])
 
 
 @router.get("", summary="Liveness check")
-async def health() -> HealthResponse:
+async def get_health() -> HealthResponse:
     return get_liveness()
 
 
@@ -20,7 +20,7 @@ async def health() -> HealthResponse:
     summary="Readiness check (database and PostGIS)",
     responses={status.HTTP_503_SERVICE_UNAVAILABLE: {"model": ReadinessResponse}},
 )
-async def ready(
+async def get_readiness_status(
     response: Response, engine: Annotated[AsyncEngine, Depends(get_engine)]
 ) -> ReadinessResponse:
     result = await get_readiness(engine)

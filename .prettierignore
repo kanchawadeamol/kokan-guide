@@ -10,3 +10,5 @@ test-results/
 apps/backend/
 apps/mobile/android/
 apps/mobile/ios/
+packages/api-client/openapi.json
+packages/api-client/src/schema.generated.ts

@@ -17,8 +17,7 @@ Only tick an item after it has actually been run and checked.
 - [x] `CLAUDE.md`, `README.md`, ADR 0001 (monorepo structure)
 - [x] Root `package-lock.json` generated, `npm run format:check` passes
 - [x] Verified `.env` is ignored and `.env.example` is tracked
-- Known: root `npm test`/`lint`/`typecheck` exit with "No workspaces found" until the first
-  workspace (0.4) exists. Expected; do not wire into CI before then.
+- Resolved in 0.4: root `npm test`/`typecheck` previously failed with "No workspaces found".
 
 ### 0.2 Backend scaffold (`apps/backend`)
 
@@ -57,10 +56,25 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.4 Shared packages
 
-- [ ] `packages/design-tokens`
-- [ ] `packages/shared-types`
-- [ ] `packages/api-client` (OpenAPI codegen)
-- [ ] Shared TS config (strict) and ESLint flat config
+- [x] Root `tsconfig.base.json` (strict + `noUncheckedIndexedAccess`,
+      `exactOptionalPropertyTypes`); TypeScript pinned 5.9.3 (ADR 0002)
+- [x] Root ESLint 10 flat config (typescript-eslint strict/stylistic, type-aware, Prettier);
+      root `npm run lint` covers the whole repo; verified it catches errors
+- [x] Vitest 5 per package; root `npm test` / `typecheck` fan out to workspaces
+- [x] `packages/design-tokens`: semantic light/dark themes, spacing, Devanagari-friendly
+      typography, 48px touch target, motion + reduced motion, CSS-variable helper.
+      109 tests incl. WCAG AA contrast for every text (4.5:1) and UI (3:1) pairing;
+      mutation-checked (a too-light grey fails 3 tests)
+- [x] `packages/shared-types`: locales (mr/en/hi), `resolveLocale`, translation fallback
+      (24 tests)
+- [x] `packages/api-client`: OpenAPI → `openapi-typescript` types + `openapi-fetch` client
+      with Accept-Language / bearer token middleware and base-URL validation (15 tests,
+      type-level assertions)
+- [x] `npm run api:generate` / `api:check`; drift detection verified (fails on stale client)
+- [x] Backend operation IDs = handler names (`get_health`, `get_readiness_status`)
+- [x] Public client env vars renamed to origin-only `*_API_URL`
+- Fixed during sprint: ESLint JS-file override dropped `projectService: false`; first
+  `npm install -w <name>` silently installed nothing (use `-w <path>` for new workspaces)
 
 ### 0.5 Admin app (`apps/admin`)
 

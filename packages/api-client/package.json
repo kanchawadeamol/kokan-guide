@@ -1,0 +1,21 @@
+{
+  "name": "@konkan/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Typed client for the Konkan Discovery REST API, generated from the backend OpenAPI schema.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@konkan/shared-types": "*",
+    "openapi-fetch": "0.17.0"
+  }
+}

@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.routing import APIRoute
 
 from app import __version__
 from app.api.v1.router import API_V1_PREFIX, api_router
@@ -18,6 +19,10 @@ from app.core.config import Settings, get_settings
 from app.core.logging import configure_logging
 from app.core.middleware import REQUEST_ID_HEADER, RequestContextMiddleware
 from app.db.session import create_engine, create_session_factory
+
+
+def _operation_id(route: APIRoute) -> str:
+    return route.name
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -40,6 +45,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         title="Konkan Discovery API",
         version=__version__,
         lifespan=lifespan,
+        # Operation IDs = handler function names, giving readable generated client methods.
+        # FastAPI warns on duplicates, and pytest turns warnings into errors.
+        generate_unique_id_function=_operation_id,
         openapi_url=f"{API_V1_PREFIX}/openapi.json" if docs else None,
         docs_url=f"{API_V1_PREFIX}/docs" if docs else None,
         redoc_url=None,

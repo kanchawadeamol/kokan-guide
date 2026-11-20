@@ -65,7 +65,7 @@ python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
 warn_unreachable = true
-files = ["app", "tests", "migrations"]
+files = ["app", "tests", "migrations", "scripts"]
 
 [[tool.mypy.overrides]]
 # asyncpg ships no type information; only exception classes are imported directly.

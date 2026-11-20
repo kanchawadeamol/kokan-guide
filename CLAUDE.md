@@ -47,10 +47,22 @@ Python project (not an npm workspace).
 ```bash
 npm install            # install all JS workspaces
 npm run format:check   # Prettier
-npm run lint           # lint all workspaces
-npm run typecheck      # type check all workspaces
-npm test               # test all workspaces
+npm run lint           # ESLint over the whole repo (one pass)
+npm run typecheck      # tsc in every workspace
+npm test               # Vitest in every workspace
+npm run api:generate   # regenerate packages/api-client from backend OpenAPI
+npm run api:check      # fail if the generated API client is stale
 ```
+
+### Shared packages (`packages/*`)
+
+- Source-only: `exports` point at `src/index.ts`; no build step (ADR 0002).
+- Use extensionless relative imports (`./colors`) for Metro compatibility.
+- API types come only from `npm run api:generate`; never hand-write them or edit
+  `schema.generated.ts`. After any backend route/schema change, regenerate and commit.
+- UI code uses semantic tokens (`themes.light.textMuted`), never `palette` directly. New
+  colour pairs must be added to `colors.test.ts` contrast checks.
+- TypeScript is pinned to 5.9.x (tooling peer ranges); see ADR 0002 before upgrading.
 
 ### Backend (`apps/backend`, venv at `apps/backend/.venv`)
 

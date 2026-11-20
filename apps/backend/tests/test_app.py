@@ -58,3 +58,10 @@ async def test_no_cors_headers_when_no_origins_configured(
         response = await client.get("/api/v1/health", headers={"Origin": "http://localhost:3000"})
 
     assert "access-control-allow-origin" not in response.headers
+
+
+async def test_operation_ids_are_handler_names(client: httpx.AsyncClient) -> None:
+    paths = (await client.get("/api/v1/openapi.json")).json()["paths"]
+
+    assert paths["/api/v1/health"]["get"]["operationId"] == "get_health"
+    assert paths["/api/v1/health/ready"]["get"]["operationId"] == "get_readiness_status"
