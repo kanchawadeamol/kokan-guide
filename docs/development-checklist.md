@@ -78,7 +78,25 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.5 Admin app (`apps/admin`)
 
-- [ ] Vite + React + TS strict, ESLint, Vitest + RTL, Playwright
+- [x] Vite 8 + React 19 + TS strict (project references; CSS-module exception per ADR 0002)
+- [x] ESLint: root rules + react-hooks + react-refresh + jsx-a11y-x (strict); canary-verified
+- [x] App shell: skip link, banner/nav/main landmarks, labelled language picker (mr/en/hi,
+      native names), `<html lang>` sync, design-token CSS variables (light/dark), visible
+      focus, reduced motion, rem sizing, 48px targets
+- [x] API status card via `@konkan/api-client`: loading / ready / not ready (503) /
+      unreachable; runtime-validated error bodies (proxy 502 HTML no longer crashes;
+      mutation-verified); retry keeps keyboard focus (`aria-disabled`)
+- [x] Fail-fast config (`VITE_API_URL` must be an origin)
+- [x] Vitest + RTL + axe: 33 tests
+- [x] Playwright (Chromium 159, desktop + Pixel 7): 24 e2e tests incl. axe WCAG 2.2 AA in
+      light/dark x en/mr/hi, 200% text, keyboard skip link, no horizontal scroll
+- [x] Verified against the real stack in a browser: ready state, DB-down (503) state and
+      recovery
+- [x] CORS dev origins now include `127.0.0.1` (Vite serves on 127.0.0.1)
+- [x] `npm audit` clean (minimatch override for jsx-a11y-x)
+- [ ] Marathi/Hindi UI strings need native-speaker review
+- [ ] Choose a shared i18n library for web/admin/mobile (Sprint 4); admin uses a typed
+      message catalog until then
 
 ### 0.6 Web app (`apps/web`)
 

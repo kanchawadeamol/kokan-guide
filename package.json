@@ -34,5 +34,10 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.73.0",
     "vitest": "5.1.1"
+  },
+  "overrides": {
+    "eslint-plugin-jsx-a11y-x": {
+      "minimatch": "11.0.9"
+    }
   }
 }

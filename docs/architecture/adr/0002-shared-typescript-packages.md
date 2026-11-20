@@ -34,6 +34,17 @@ API client. Each bundler compiles TypeScript itself.
    Root `npm run lint` lints the whole repo in one pass. Apps add framework plugins in their
    own config.
 
+### Amendments
+
+- **2026-11-21, CSS modules exception.** Apps that use CSS modules may set
+  `noPropertyAccessFromIndexSignature: false` in their app tsconfig. That flag only forces
+  `styles['header']` instead of `styles.header`; `noUncheckedIndexedAccess` stays on, so class
+  lookups are still typed `string | undefined`. No other strictness flag may be relaxed.
+- **2026-11-21, accessibility lint plugin.** `eslint-plugin-jsx-a11y` declares ESLint ≤ 9 only.
+  We use the drop-in fork `eslint-plugin-jsx-a11y-x` (es-tooling), which supports ESLint 10.
+  Its `minimatch` dependency is overridden to 11.0.9 in the root `package.json` to fix
+  GHSA-g3hv-75wg-m249. Remove the override once the fork depends on a patched version.
+
 ## Consequences
 
 - Changing a package is immediately visible in every app with no rebuild.

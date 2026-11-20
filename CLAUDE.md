@@ -64,6 +64,20 @@ npm run api:check      # fail if the generated API client is stale
   colour pairs must be added to `colors.test.ts` contrast checks.
 - TypeScript is pinned to 5.9.x (tooling peer ranges); see ADR 0002 before upgrading.
 
+### Admin app (`apps/admin`)
+
+```bash
+npm run dev -w apps/admin        # http://127.0.0.1:5173 (needs backend running)
+npm run test -w apps/admin       # Vitest + RTL + axe
+npm run test:e2e -w apps/admin   # Playwright (builds + previews on 127.0.0.1:4173)
+```
+
+- All UI strings live in `src/i18n/messages.ts` for en/mr/hi.
+- Colours via `var(--color-*)` only; CSS modules, no inline styles.
+- Hooks/contexts in `context.ts`, components in `.tsx` (Fast Refresh lint rule).
+- Never put secrets in `VITE_*` variables: they are bundled into browser code.
+- Dev servers bind to `127.0.0.1`; CORS allow-lists must include `127.0.0.1` origins.
+
 ### Backend (`apps/backend`, venv at `apps/backend/.venv`)
 
 ```bash

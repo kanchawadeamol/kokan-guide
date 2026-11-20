@@ -1,0 +1,42 @@
+{
+  "name": "@konkan/admin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Admin dashboard for the Konkan Discovery Platform.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.1",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "8.0.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.13",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "axe-core": "4.14.1",
+    "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.8",
+    "jsdom": "31.0.1",
+    "vite": "8.3.8"
+  },
+  "dependencies": {
+    "@konkan/api-client": "0.0.0",
+    "@konkan/design-tokens": "0.0.0",
+    "@konkan/shared-types": "0.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}
