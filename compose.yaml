@@ -24,7 +24,7 @@ x-backend-db-env: &backend-db-env
 services:
   db:
     <<: *hardening
-    image: postgis/postgis:17-3.7
+    image: postgis/postgis:18-3.7
     environment:
       POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
