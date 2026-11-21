@@ -167,8 +167,31 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.9 Environment validation
 
-- [ ] Full stack starts with `docker compose up` and health checks pass
-- [ ] All lint/type/test commands green from a clean clone
+- [x] Clean-clone validation (2026-11-21): fresh `git clone`, documented setup only,
+      separate Compose project on ports 15432/18000. **27/27 steps pass**: env script, `npm ci`,
+      npm audit, single React, format, lint, typecheck, JS tests (256), backend venv + install,
+      Ruff, Mypy, backend unit (coverage ≥ 90%), pip-audit, API contract, Compose up (healthy),
+      integration tests (14), `alembic check`, readiness, admin e2e (24), web e2e (38),
+      expo-doctor, Metro export, gitleaks, actionlint, Compose down
+- [x] Found and fixed: CI `pip-audit --strict` failed on the editable package (now audits the
+      lock file); mobile Jest timed out on a cold cache (testTimeout 30 s); README setup steps
+      were incomplete (rewritten)
+
+## Sprint 0 summary
+
+**Done and verified:** monorepo (npm workspaces + Python backend), Docker Compose with
+PostgreSQL 17 + PostGIS 3.7 and least-privilege roles, FastAPI scaffold with health/readiness,
+Alembic, shared design tokens / locale types / typed API client, admin (Vite), web (Next.js),
+mobile (Expo) shells with en/mr/hi and WCAG 2.2 AA checks, CI (GitHub Actions, CodeQL,
+Dependabot), clean-clone reproducibility.
+
+**Open items carried forward:**
+
+- [ ] Push to GitHub (public repo; needs the repository URL) and see CI run there
+- [ ] Branch protection with required checks, secret-scanning push protection
+- [ ] Maestro smoke flow: install Java 17+ and the Maestro CLI, build an Android dev build
+- [ ] Native-speaker review of Marathi and Hindi UI strings
+- [ ] Self-hosted Noto fonts; nonce-based CSP (Sprint 9); web Dockerfile (Sprint 10)
 
 ## Sprint 1 to Sprint 10
 
