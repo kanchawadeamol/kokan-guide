@@ -106,6 +106,13 @@ npm run doctor -w apps/mobile    # expo-doctor
 - React is pinned to 19.3.0 repo-wide (Expo SDK 58 requirement) via root `overrides`.
 - Maestro and native builds need Java 17+ (machine currently has Java 8).
 
+### CI (`.github/`)
+
+- See `docs/testing/ci.md`. Pin every action to a full commit SHA with a `# vX.Y.Z` comment.
+- Validate workflow edits locally:
+  `docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12`
+- `python scripts/create-dev-env.py` creates a `.env` with generated secrets (never overwrites).
+
 ### Dependency hygiene
 
 - `npm install <pkg>` and `npm dedupe` can bypass root `overrides` (minimatch, glob, react).

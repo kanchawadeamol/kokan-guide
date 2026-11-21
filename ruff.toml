@@ -1,0 +1,3 @@
+# Ruff settings for Python files outside apps/backend (e.g. scripts/). Same rules as the
+# backend so all Python in the repo follows one standard.
+extend = "apps/backend/pyproject.toml"

@@ -150,9 +150,20 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.8 CI/CD
 
-- [ ] GitHub Actions: install, lint, format, typecheck, tests, builds
-- [ ] Security checks (npm audit, pip-audit, secret scanning, CodeQL/Dependabot)
-- [ ] GitHub remote configured (none yet; `gh` CLI not installed)
+- [x] `.github/workflows/ci.yml`: js (audit, single-React check, format, lint, typecheck,
+      tests), backend (hash-locked install, Ruff, Mypy, unit coverage ≥ 90%, pip-audit,
+      Compose stack, integration tests, alembic check, readiness), api-contract, e2e matrix
+      (admin, web), mobile (expo-doctor, Metro bundle), hygiene (gitleaks, actionlint)
+- [x] All actions pinned to verified commit SHAs; `permissions: contents: read`
+- [x] `codeql.yml` (JS/TS, Python, Actions; security-extended). **Needs GitHub Advanced
+      Security if the repo is private (paid)**: decide before enabling
+- [x] `dependabot.yml`: npm, pip, Docker, Compose, Actions; React/Expo/TS majors held back
+- [x] `scripts/create-dev-env.py`: `.env` with generated secrets, refuses to overwrite
+- [x] Validated locally: actionlint clean; gitleaks on full history clean (7 commits);
+      `npm audit --audit-level=moderate` clean; single React copy
+- [ ] **Workflows have not run on GitHub yet**: no remote, no `gh` CLI. First push will be
+      the real validation
+- [ ] Branch protection + required checks (after the repo exists on GitHub)
 
 ### 0.9 Environment validation
 

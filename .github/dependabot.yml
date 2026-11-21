@@ -1,0 +1,57 @@
+# Weekly dependency updates. Minor/patch updates are grouped per ecosystem to limit PR noise;
+# majors arrive individually so each can be reviewed. Every PR runs the full CI.
+#
+# npm note: after merging an npm update, confirm `npm audit` is clean and only one React copy
+# exists. npm can bypass root `overrides` when it re-resolves (see ADR 0002); CI checks both.
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Pinned by ADR 0002: tooling peer ranges (typescript-eslint, openapi-typescript).
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      # Expo SDK 58 requires React exactly 19.3.0; upgrade together with the Expo SDK.
+      - dependency-name: react
+      - dependency-name: react-dom
+      - dependency-name: react-native
+      - dependency-name: expo
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: pip
+    directory: /apps/backend
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      pip-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /apps/backend
+    schedule:
+      interval: weekly
+      day: monday
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      actions:
+        patterns: ['*']
