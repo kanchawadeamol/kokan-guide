@@ -44,6 +44,13 @@ API client. Each bundler compiles TypeScript itself.
   We use the drop-in fork `eslint-plugin-jsx-a11y-x` (es-tooling), which supports ESLint 10.
   Its `minimatch` dependency is overridden to 11.0.9 in the root `package.json` to fix
   GHSA-g3hv-75wg-m249. Remove the override once the fork depends on a patched version.
+- **2026-11-21, override scope and npm caveat.** The override now targets the vulnerable range
+  (`"minimatch@>=7.0.0 <11.0.1": "11.0.9"`), so it applies whichever package pulls it in.
+  `npm install <pkg>` can bypass overrides and write a vulnerable nested copy into the lock
+  file; `npm install` / `npm ci` honour them. After adding packages, run `npm audit`. CI runs
+  it on every change.
+- **2026-11-21, Next.js lint.** The web app uses `@next/eslint-plugin-next` directly instead of
+  `eslint-config-next`, which bundles the original `eslint-plugin-jsx-a11y`.
 
 ## Consequences
 

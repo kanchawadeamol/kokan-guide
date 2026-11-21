@@ -1,5 +1,5 @@
 /*
- * Global styles. Colours come from design-token CSS variables (src/theme/themeCss.ts).
+ * Global styles. Colours come from design-token CSS variables (@konkan/design-tokens toThemeStylesheet).
  * Sizes use rem so text scales with the user's browser font-size setting (WCAG 1.4.4).
  */
 

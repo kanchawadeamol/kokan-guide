@@ -63,3 +63,26 @@ export function getLocalizedText(text: LocalizedText, locale: Locale): string | 
   }
   return undefined;
 }
+
+/**
+ * Parse an HTTP `Accept-Language` header into language tags ordered by preference
+ * (quality value, then original order). Invalid entries and `q=0` are dropped, so the result
+ * can be passed straight to `resolveLocale`.
+ *
+ * @example parseAcceptLanguage('en-US;q=0.5, mr-IN, hi;q=0.8') // ['mr-IN', 'hi', 'en-US']
+ */
+export function parseAcceptLanguage(header: string | null | undefined): string[] {
+  if (!header) return [];
+  return header
+    .split(',')
+    .map((part, index) => {
+      const [rawTag = '', ...params] = part.trim().split(';');
+      const tag = rawTag.trim();
+      const qParam = params.map((p) => p.trim()).find((p) => p.startsWith('q='));
+      const q = qParam === undefined ? 1 : Number(qParam.slice(2));
+      return { tag, q, index };
+    })
+    .filter(({ tag, q }) => /^[A-Za-z]{1,8}(?:[-_][A-Za-z0-9]{1,8})*$/.test(tag) && q > 0 && q <= 1)
+    .sort((a, b) => b.q - a.q || a.index - b.index)
+    .map(({ tag }) => tag);
+}

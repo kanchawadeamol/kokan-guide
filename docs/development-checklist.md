@@ -100,7 +100,30 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.6 Web app (`apps/web`)
 
-- [ ] Next.js + TS strict, ESLint, Vitest + RTL, Playwright
+- [x] Next.js 16.4.6 (App Router, Turbopack) + React 19 + TS strict; shared packages via
+      `transpilePackages`; Turbopack/tracing root set to the monorepo root
+- [x] Locale routing: `/mr`, `/en`, `/hi` statically pre-rendered; unknown locales 404;
+      `src/proxy.ts` redirects `/` (307 + `Vary: Accept-Language`) using weighted
+      `Accept-Language` (new `parseAcceptLanguage` in shared-types, 7 tests)
+- [x] SEO: per-locale title/description, `<html lang>`, canonical + hreflang (+ x-default),
+      Open Graph locale, `robots.txt`, `sitemap.xml` with alternates; `SITE_URL` required
+      for production builds
+- [x] Security headers (nosniff, frame DENY, referrer, permissions, COOP); no `X-Powered-By`.
+      CSP deferred to Sprint 9
+- [x] Accessibility: skip link, crawlable language links (`hrefLang`, `lang`,
+      `aria-current`), design-token theme, focus ring, reduced motion, 48px targets
+- [x] ESLint: `@next/eslint-plugin-next` (recommended + core-web-vitals), react-hooks,
+      jsx-a11y-x
+- [x] Vitest: 31 tests (site URL validation, alternates, messages, header, proxy redirect,
+      robots/sitemap)
+- [x] Playwright: 38 tests (desktop + mobile) incl. redirects, 404, SEO tags, security
+      headers, robots/sitemap, skip link, axe WCAG 2.2 AA in light/dark × en/mr/hi, 200% text
+- [x] Production build verified; dev server verified in browser (lang, canonical, hreflang,
+      theme, no console errors)
+- [x] Theme stylesheet moved into design-tokens (`toThemeStylesheet`), shared by web + admin
+- [x] `minimatch` override widened to the vulnerable range; `npm ci` verified clean
+- [ ] Self-hosted Noto Sans / Noto Sans Devanagari fonts (currently system fallback)
+- [ ] Web Dockerfile (planned with production deployment, Sprint 10)
 
 ### 0.7 Mobile app (`apps/mobile`)
 

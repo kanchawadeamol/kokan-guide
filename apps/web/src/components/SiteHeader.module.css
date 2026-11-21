@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  color: var(--color-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.languageLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem; /* 48px touch target */
+  padding: 0 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.languageLink[aria-current='page'] {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}

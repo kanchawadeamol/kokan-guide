@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { readConfig } from './config';
 import { messages } from './i18n/messages';
-import { buildThemeCss, installTheme } from './theme/themeCss';
+import { installTheme } from './theme/themeCss';
 
 describe('messages', () => {
   const english = Object.keys(messages.en).sort();
@@ -23,20 +23,14 @@ describe('messages', () => {
   });
 });
 
-describe('theme CSS', () => {
-  it('defines light variables at :root and dark ones under prefers-color-scheme', () => {
-    const css = buildThemeCss();
-
-    expect(css).toMatch(/^:root \{/);
-    expect(css).toContain('@media (prefers-color-scheme: dark)');
-    expect(css.match(/--color-background:/g)).toHaveLength(2);
-  });
-
-  it('installs the style tag only once', () => {
+describe('installTheme', () => {
+  it('installs the shared stylesheet exactly once', () => {
     installTheme(document);
     installTheme(document);
 
-    expect(document.querySelectorAll('style#konkan-theme')).toHaveLength(1);
+    const styles = document.querySelectorAll('style#konkan-theme');
+    expect(styles).toHaveLength(1);
+    expect(styles[0]!.textContent).toContain('@media (prefers-color-scheme: dark)');
   });
 });
 

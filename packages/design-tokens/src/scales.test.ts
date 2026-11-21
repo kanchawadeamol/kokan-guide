@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { toCssVariables, cssVariableName } from './css';
+import { cssVariableName, toCssVariables, toThemeStylesheet } from './css';
 import { themes } from './colors';
 import { minTouchTarget, motion, spacing, typography } from './scales';
 
@@ -50,5 +50,16 @@ describe('toCssVariables', () => {
 
   it('names variables consistently', () => {
     expect(cssVariableName('focusRing')).toBe('--color-focus-ring');
+  });
+});
+
+describe('toThemeStylesheet', () => {
+  it('puts light at :root and dark under prefers-color-scheme', () => {
+    const css = toThemeStylesheet();
+    const [lightPart, darkPart] = css.split('@media (prefers-color-scheme: dark)');
+
+    expect(lightPart).toMatch(/^:root \{/);
+    expect(lightPart).toContain(`--color-background: ${themes.light.background};`);
+    expect(darkPart).toContain(`--color-background: ${themes.dark.background};`);
   });
 });

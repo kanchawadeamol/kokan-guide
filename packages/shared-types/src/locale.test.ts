@@ -5,6 +5,7 @@ import {
   getLocalizedText,
   isLocale,
   LOCALE_INFO,
+  parseAcceptLanguage,
   resolveLocale,
   SUPPORTED_LOCALES,
 } from './locale';
@@ -73,5 +74,32 @@ describe('getLocalizedText', () => {
   it('returns undefined when no translation exists', () => {
     expect(getLocalizedText({}, 'en')).toBeUndefined();
     expect(getLocalizedText({ en: '' }, 'en')).toBeUndefined();
+  });
+});
+
+describe('parseAcceptLanguage', () => {
+  it('orders tags by quality, keeping original order for ties', () => {
+    expect(parseAcceptLanguage('en-US;q=0.5, mr-IN, hi;q=0.8, gu')).toEqual([
+      'mr-IN',
+      'gu',
+      'hi',
+      'en-US',
+    ]);
+  });
+
+  it('drops q=0, invalid q values, wildcards and malformed tags', () => {
+    expect(parseAcceptLanguage('mr;q=0, hi;q=abc, *, en;q=2, <script>, en-GB;q=0.3')).toEqual([
+      'en-GB',
+    ]);
+  });
+
+  it.each([null, undefined, '', '   '])('returns [] for %j', (header) => {
+    expect(parseAcceptLanguage(header)).toEqual([]);
+  });
+
+  it('works with resolveLocale to honour weighted preferences', () => {
+    // Browser prefers English, but Marathi is listed with a higher weight.
+    expect(resolveLocale(parseAcceptLanguage('en-US;q=0.4, mr;q=0.9'))).toBe('mr');
+    expect(resolveLocale(parseAcceptLanguage('fr-FR, de;q=0.9'))).toBe('en');
   });
 });

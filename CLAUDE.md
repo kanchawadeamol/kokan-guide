@@ -78,6 +78,21 @@ npm run test:e2e -w apps/admin   # Playwright (builds + previews on 127.0.0.1:41
 - Never put secrets in `VITE_*` variables: they are bundled into browser code.
 - Dev servers bind to `127.0.0.1`; CORS allow-lists must include `127.0.0.1` origins.
 
+### Web app (`apps/web`)
+
+```bash
+npm run dev -w apps/web          # http://127.0.0.1:3000
+npm run test -w apps/web         # Vitest
+npm run test:e2e -w apps/web     # Playwright (builds + serves on 127.0.0.1:3100)
+```
+
+- Pages live under `src/app/[locale]/`; every page needs canonical + hreflang via
+  `buildAlternates` in `src/lib/site.ts`.
+- Strings in `src/i18n/messages.ts` (en/mr/hi). Language switching uses crawlable links.
+- `SITE_URL` is required for production builds; Next.js does not read the root `.env`.
+- Layout/page files may only export Next.js-recognised names (no custom constants).
+- After `npm install <pkg>`, run `npm audit`: it can bypass the `minimatch` override.
+
 ### Backend (`apps/backend`, venv at `apps/backend/.venv`)
 
 ```bash

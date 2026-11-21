@@ -3,6 +3,7 @@ export {
   getLocalizedText,
   isLocale,
   LOCALE_INFO,
+  parseAcceptLanguage,
   resolveLocale,
   SUPPORTED_LOCALES,
 } from './locale';
