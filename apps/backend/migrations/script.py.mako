@@ -1,3 +1,5 @@
+# GeoAlchemy2 registers op.*_geospatial_* on Alembic at runtime, invisible to mypy.
+# mypy: disable-error-code="attr-defined"
 """${message}
 
 Revision ID: ${up_revision}

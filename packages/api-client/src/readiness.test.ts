@@ -3,8 +3,11 @@ import { describe, expect, it, vi } from 'vitest';
 import { createApiClient } from './client';
 import { fetchReadiness, isReadinessBody } from './readiness';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok' } };
-const NOT_READY = { status: 'unavailable', checks: { database: 'ok', postgis: 'fail' } };
+const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
+const NOT_READY = {
+  status: 'unavailable',
+  checks: { database: 'ok', postgis: 'fail', migrations: 'fail' },
+};
 
 function clientReturning(make: () => Response | Promise<Response>) {
   const fetch = vi.fn(() => Promise.resolve(make()));
@@ -61,9 +64,10 @@ describe('fetchReadiness', () => {
 
 describe('isReadinessBody', () => {
   it.each([
-    [{ checks: { database: 'ok', postgis: 'fail' } }, true],
+    [{ checks: { database: 'ok', postgis: 'fail', migrations: 'fail' } }, true],
     [{ checks: { database: 'ok' } }, false],
-    [{ checks: { database: 'yes', postgis: 'ok' } }, false],
+    [{ checks: { database: 'ok', postgis: 'ok' } }, false], // pre-0.2 body without migrations
+    [{ checks: { database: 'yes', postgis: 'ok', migrations: 'ok' } }, false],
     [{ checks: null }, false],
     ['<html>', false],
     [null, false],

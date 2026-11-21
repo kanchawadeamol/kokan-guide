@@ -19,6 +19,8 @@ class ReadinessChecks(BaseModel):
 
     database: CheckStatus
     postgis: CheckStatus
+    migrations: CheckStatus
+    """`ok` when the database schema is at the migration head shipped with this build."""
 
 
 class ReadinessResponse(BaseModel):

@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "description": "Initial reference regions. Talukas per Maharashtra administrative divisions; places are taluka headquarters plus well-known coastal/tourist locations.",
+    "verification": "Names must be reviewed against the Local Government Directory (LGD) before production. Hindi names, LGD codes and coordinates are intentionally omitted until verified from an authoritative source."
+  },
+  "countries": [
+    {
+      "code": "IN",
+      "slug": "india",
+      "name": { "en": "India", "mr": "भारत", "hi": "भारत" },
+      "states": [
+        {
+          "code": "IN-MH",
+          "slug": "maharashtra",
+          "name": { "en": "Maharashtra", "mr": "महाराष्ट्र", "hi": "महाराष्ट्र" },
+          "districts": [
+            {
+              "slug": "ratnagiri",
+              "name": { "en": "Ratnagiri", "mr": "रत्नागिरी" },
+              "talukas": [
+                {
+                  "slug": "mandangad",
+                  "name": { "en": "Mandangad", "mr": "मंडणगड" },
+                  "places": [
+                    { "slug": "mandangad", "kind": "town", "name": { "en": "Mandangad", "mr": "मंडणगड" } }
+                  ]
+                },
+                {
+                  "slug": "dapoli",
+                  "name": { "en": "Dapoli", "mr": "दापोली" },
+                  "places": [
+                    { "slug": "dapoli", "kind": "town", "name": { "en": "Dapoli", "mr": "दापोली" } },
+                    { "slug": "harnai", "kind": "village", "name": { "en": "Harnai", "mr": "हर्णै" } },
+                    { "slug": "kelshi", "kind": "village", "name": { "en": "Kelshi", "mr": "केळशी" } }
+                  ]
+                },
+                {
+                  "slug": "khed",
+                  "name": { "en": "Khed", "mr": "खेड" },
+                  "places": [
+                    { "slug": "khed", "kind": "town", "name": { "en": "Khed", "mr": "खेड" } }
+                  ]
+                },
+                {
+                  "slug": "chiplun",
+                  "name": { "en": "Chiplun", "mr": "चिपळूण" },
+                  "places": [
+                    { "slug": "chiplun", "kind": "town", "name": { "en": "Chiplun", "mr": "चिपळूण" } }
+                  ]
+                },
+                {
+                  "slug": "guhagar",
+                  "name": { "en": "Guhagar", "mr": "गुहागर" },
+                  "places": [
+                    { "slug": "guhagar", "kind": "town", "name": { "en": "Guhagar", "mr": "गुहागर" } },
+                    { "slug": "velneshwar", "kind": "village", "name": { "en": "Velneshwar", "mr": "वेळणेश्वर" } }
+                  ]
+                },
+                {
+                  "slug": "sangameshwar",
+                  "name": { "en": "Sangameshwar", "mr": "संगमेश्वर" },
+                  "places": [
+                    { "slug": "devrukh", "kind": "town", "name": { "en": "Devrukh", "mr": "देवरुख" } }
+                  ]
+                },
+                {
+                  "slug": "ratnagiri",
+                  "name": { "en": "Ratnagiri", "mr": "रत्नागिरी" },
+                  "places": [
+                    { "slug": "ratnagiri", "kind": "city", "name": { "en": "Ratnagiri", "mr": "रत्नागिरी" } },
+                    { "slug": "ganpatipule", "kind": "village", "name": { "en": "Ganpatipule", "mr": "गणपतीपुळे" } },
+                    { "slug": "pawas", "kind": "village", "name": { "en": "Pawas", "mr": "पावस" } }
+                  ]
+                },
+                {
+                  "slug": "lanja",
+                  "name": { "en": "Lanja", "mr": "लांजा" },
+                  "places": [
+                    { "slug": "lanja", "kind": "town", "name": { "en": "Lanja", "mr": "लांजा" } }
+                  ]
+                },
+                {
+                  "slug": "rajapur",
+                  "name": { "en": "Rajapur", "mr": "राजापूर" },
+                  "places": [
+                    { "slug": "rajapur", "kind": "town", "name": { "en": "Rajapur", "mr": "राजापूर" } }
+                  ]
+                }
+              ]
+            },
+            {
+              "slug": "raigad",
+              "name": { "en": "Raigad", "mr": "रायगड" },
+              "talukas": [
+                {
+                  "slug": "alibag",
+                  "name": { "en": "Alibag", "mr": "अलिबाग" },
+                  "places": [
+                    { "slug": "alibag", "kind": "town", "name": { "en": "Alibag", "mr": "अलिबाग" } }
+                  ]
+                },
+                {
+                  "slug": "pen",
+                  "name": { "en": "Pen", "mr": "पेण" },
+                  "places": [
+                    { "slug": "pen", "kind": "town", "name": { "en": "Pen", "mr": "पेण" } }
+                  ]
+                },
+                {
+                  "slug": "panvel",
+                  "name": { "en": "Panvel", "mr": "पनवेल" },
+                  "places": [
+                    { "slug": "panvel", "kind": "city", "name": { "en": "Panvel", "mr": "पनवेल" } }
+                  ]
+                },
+                {
+                  "slug": "uran",
+                  "name": { "en": "Uran", "mr": "उरण" },
+                  "places": [
+                    { "slug": "uran", "kind": "town", "name": { "en": "Uran", "mr": "उरण" } }
+                  ]
+                },
+                {
+                  "slug": "karjat",
+                  "name": { "en": "Karjat", "mr": "कर्जत" },
+                  "places": [
+                    { "slug": "karjat", "kind": "town", "name": { "en": "Karjat", "mr": "कर्जत" } },
+                    { "slug": "matheran", "kind": "town", "name": { "en": "Matheran", "mr": "माथेरान" } }
+                  ]
+                },
+                {
+                  "slug": "khalapur",
+                  "name": { "en": "Khalapur", "mr": "खालापूर" },
+                  "places": [
+                    { "slug": "khalapur", "kind": "town", "name": { "en": "Khalapur", "mr": "खालापूर" } },
+                    { "slug": "khopoli", "kind": "town", "name": { "en": "Khopoli", "mr": "खोपोली" } }
+                  ]
+                },
+                {
+                  "slug": "murud",
+                  "name": { "en": "Murud", "mr": "मुरुड" },
+                  "places": [
+                    { "slug": "murud", "kind": "town", "name": { "en": "Murud", "mr": "मुरुड" } },
+                    { "slug": "kashid", "kind": "village", "name": { "en": "Kashid", "mr": "काशीद" } }
+                  ]
+                },
+                {
+                  "slug": "roha",
+                  "name": { "en": "Roha", "mr": "रोहा" },
+                  "places": [
+                    { "slug": "roha", "kind": "town", "name": { "en": "Roha", "mr": "रोहा" } }
+                  ]
+                },
+                {
+                  "slug": "sudhagad",
+                  "name": { "en": "Sudhagad", "mr": "सुधागड" },
+                  "places": [
+                    { "slug": "pali", "kind": "town", "name": { "en": "Pali", "mr": "पाली" } }
+                  ]
+                },
+                {
+                  "slug": "mangaon",
+                  "name": { "en": "Mangaon", "mr": "माणगाव" },
+                  "places": [
+                    { "slug": "mangaon", "kind": "town", "name": { "en": "Mangaon", "mr": "माणगाव" } }
+                  ]
+                },
+                {
+                  "slug": "tala",
+                  "name": { "en": "Tala", "mr": "तळा" },
+                  "places": [
+                    { "slug": "tala", "kind": "town", "name": { "en": "Tala", "mr": "तळा" } }
+                  ]
+                },
+                {
+                  "slug": "shrivardhan",
+                  "name": { "en": "Shrivardhan", "mr": "श्रीवर्धन" },
+                  "places": [
+                    { "slug": "shrivardhan", "kind": "town", "name": { "en": "Shrivardhan", "mr": "श्रीवर्धन" } },
+                    { "slug": "harihareshwar", "kind": "village", "name": { "en": "Harihareshwar", "mr": "हरिहरेश्वर" } },
+                    { "slug": "diveagar", "kind": "village", "name": { "en": "Diveagar", "mr": "दिवेआगर" } }
+                  ]
+                },
+                {
+                  "slug": "mhasla",
+                  "name": { "en": "Mhasla", "mr": "म्हसळा" },
+                  "places": [
+                    { "slug": "mhasla", "kind": "town", "name": { "en": "Mhasla", "mr": "म्हसळा" } }
+                  ]
+                },
+                {
+                  "slug": "mahad",
+                  "name": { "en": "Mahad", "mr": "महाड" },
+                  "places": [
+                    { "slug": "mahad", "kind": "town", "name": { "en": "Mahad", "mr": "महाड" } }
+                  ]
+                },
+                {
+                  "slug": "poladpur",
+                  "name": { "en": "Poladpur", "mr": "पोलादपूर" },
+                  "places": [
+                    { "slug": "poladpur", "kind": "town", "name": { "en": "Poladpur", "mr": "पोलादपूर" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

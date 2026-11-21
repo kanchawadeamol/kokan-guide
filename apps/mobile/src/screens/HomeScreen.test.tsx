@@ -6,8 +6,11 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { jsonResponse, renderWithProviders } from '../test/render';
 import { HomeScreen } from './HomeScreen';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok' } };
-const NOT_READY = { status: 'unavailable', checks: { database: 'fail', postgis: 'fail' } };
+const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
+const NOT_READY = {
+  status: 'unavailable',
+  checks: { database: 'fail', postgis: 'fail', migrations: 'fail' },
+};
 
 describe('HomeScreen', () => {
   it('shows a heading and announces connection status', async () => {

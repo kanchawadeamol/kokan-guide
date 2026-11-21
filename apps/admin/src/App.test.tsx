@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { App } from './App';
 import { axeViolations, jsonResponse, renderWithProviders } from './test/render';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok' } };
+const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
 
 function renderApp(locale: 'en' | 'mr' | 'hi' = 'en') {
   return renderWithProviders(<App />, { fetch: () => jsonResponse(READY), locale });

@@ -31,6 +31,14 @@
             "title": "Database",
             "type": "string"
           },
+          "migrations": {
+            "enum": [
+              "ok",
+              "fail"
+            ],
+            "title": "Migrations",
+            "type": "string"
+          },
           "postgis": {
             "enum": [
               "ok",
@@ -42,7 +50,8 @@
         },
         "required": [
           "database",
-          "postgis"
+          "postgis",
+          "migrations"
         ],
         "title": "ReadinessChecks",
         "type": "object"
@@ -123,7 +132,7 @@
             "description": "Service Unavailable"
           }
         },
-        "summary": "Readiness check (database and PostGIS)",
+        "summary": "Readiness check (database, PostGIS, schema at migration head)",
         "tags": [
           "health"
         ]

@@ -18,6 +18,7 @@ from app.api.v1.router import API_V1_PREFIX, api_router
 from app.core.config import Settings, get_settings
 from app.core.logging import configure_logging
 from app.core.middleware import REQUEST_ID_HEADER, RequestContextMiddleware
+from app.db.migrations import expected_migration_head
 from app.db.session import create_engine, create_session_factory
 
 
@@ -66,4 +67,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.add_middleware(RequestContextMiddleware)
 
     app.include_router(api_router)
+    # Read once at startup from the migration scripts shipped with this build.
+    app.state.expected_migration_head = expected_migration_head()
     return app

@@ -22,8 +22,10 @@ export function isReadinessBody(value: unknown): value is { checks: ReadinessChe
     checks !== null &&
     'database' in checks &&
     'postgis' in checks &&
+    'migrations' in checks &&
     CHECK_VALUES.includes(checks.database) &&
-    CHECK_VALUES.includes(checks.postgis)
+    CHECK_VALUES.includes(checks.postgis) &&
+    CHECK_VALUES.includes(checks.migrations)
   );
 }
 

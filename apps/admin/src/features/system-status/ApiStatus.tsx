@@ -10,6 +10,7 @@ function CheckList({ checks }: { checks: Schema<'ReadinessChecks'> }) {
   const rows = [
     [t.checkDatabase, checks.database],
     [t.checkPostgis, checks.postgis],
+    [t.checkMigrations, checks.migrations],
   ] as const;
 
   return (

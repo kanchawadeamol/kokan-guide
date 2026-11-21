@@ -135,6 +135,18 @@ npm run doctor -w apps/mobile    # expo-doctor
 There is no module-level `app` object; always use `create_app()` (`--factory` for uvicorn).
 Details in `apps/backend/README.md`.
 
+### Database model (ADR 0003, `docs/database/schema.md`)
+
+- Tables use the mixins in `app/db/mixins.py` (UUID PK, `created_at`/`updated_at`; add the
+  `set_updated_at` trigger for every new table in its migration).
+- Localized names: `name_en`, `name_mr` required; `name_hi` optional (place names fall back
+  `hi → mr → en`). Never machine-invent translations, coordinates or official codes.
+- Import new model modules in `app/models/__init__.py` so Alembic sees them.
+- Generate migrations with `alembic revision --autogenerate --rev-id NNNN -m "..."`, then
+  review; `alembic check` must be clean. Integration tests run DDL inside rolled-back
+  transactions (see `tests/integration/test_regions.py`).
+- Seed reference data: `docker compose run --rm migrate python -m app.seed`.
+
 ### Docker / database
 
 - `docker compose up -d --build --wait` from the root starts db → migrate → api.

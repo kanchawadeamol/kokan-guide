@@ -5,8 +5,11 @@ import { describe, expect, it } from 'vitest';
 import { axeViolations, jsonResponse, renderWithProviders } from '../../test/render';
 import { ApiStatus } from './ApiStatus';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok' } };
-const NOT_READY = { status: 'unavailable', checks: { database: 'ok', postgis: 'fail' } };
+const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
+const NOT_READY = {
+  status: 'unavailable',
+  checks: { database: 'ok', postgis: 'fail', migrations: 'fail' },
+};
 
 describe('ApiStatus', () => {
   it('announces loading, then shows a ready API with each check', async () => {
@@ -16,6 +19,7 @@ describe('ApiStatus', () => {
     expect(await screen.findByText('API is available')).toBeInTheDocument();
     expect(screen.getByText('Database').nextElementSibling).toHaveTextContent('OK');
     expect(screen.getByText('Maps (PostGIS)').nextElementSibling).toHaveTextContent('OK');
+    expect(screen.getByText('Database schema').nextElementSibling).toHaveTextContent('OK');
   });
 
   it('calls the readiness endpoint', async () => {

@@ -123,7 +123,10 @@ async def test_readiness_reports_ready_against_live_database(live_settings: Sett
         response = await client.get("/api/v1/health/ready")
 
     assert response.status_code == 200
-    assert response.json() == {"status": "ready", "checks": {"database": "ok", "postgis": "ok"}}
+    assert response.json() == {
+        "status": "ready",
+        "checks": {"database": "ok", "postgis": "ok", "migrations": "ok"},
+    }
 
 
 async def test_only_expected_extensions_installed(app_engine: AsyncEngine) -> None:
@@ -147,3 +150,22 @@ async def test_app_role_cannot_connect_to_other_databases(
                 pass
     finally:
         await engine.dispose()
+
+
+async def test_readiness_fails_when_schema_is_not_at_expected_head(
+    live_settings: Settings,
+) -> None:
+    # Simulates new code deployed while its migration has not been applied.
+    app = create_app(live_settings)
+    app.state.expected_migration_head = "9999_not_applied"
+
+    async with (
+        app.router.lifespan_context(app),
+        httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://testserver"
+        ) as client,
+    ):
+        response = await client.get("/api/v1/health/ready")
+
+    assert response.status_code == 503
+    assert response.json()["checks"] == {"database": "ok", "postgis": "ok", "migrations": "fail"}

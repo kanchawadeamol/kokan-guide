@@ -28,7 +28,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Readiness check (database and PostGIS) */
+        /** Readiness check (database, PostGIS, schema at migration head) */
         get: operations["get_readiness_status"];
         put?: never;
         post?: never;
@@ -62,6 +62,11 @@ export interface components {
              * @enum {string}
              */
             database: "ok" | "fail";
+            /**
+             * Migrations
+             * @enum {string}
+             */
+            migrations: "ok" | "fail";
             /**
              * Postgis
              * @enum {string}

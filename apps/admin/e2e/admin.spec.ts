@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok' } };
+const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 async function mockReadiness(page: Page, body: unknown = READY, status = 200) {
@@ -86,7 +86,7 @@ test.describe('accessibility (axe, WCAG 2.2 AA)', () => {
           page,
           {
             status: 'unavailable',
-            checks: { database: 'ok', postgis: 'fail' },
+            checks: { database: 'ok', postgis: 'fail', migrations: 'fail' },
           },
           503,
         );

@@ -34,7 +34,10 @@ describe('createApiClient', () => {
   });
 
   it('exposes error bodies for non-2xx responses', async () => {
-    const unavailable = { status: 'unavailable', checks: { database: 'fail', postgis: 'fail' } };
+    const unavailable = {
+      status: 'unavailable',
+      checks: { database: 'fail', postgis: 'fail', migrations: 'fail' },
+    };
     const { fetch } = mockFetch(() => jsonResponse(unavailable, 503));
     const client = createApiClient({ baseUrl: 'http://127.0.0.1:8000', fetch });
 
