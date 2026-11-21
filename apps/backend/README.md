@@ -76,8 +76,11 @@ backup/restore.
 .venv\Scripts\ruff check .                 # lint (incl. bandit security rules)
 .venv\Scripts\ruff format --check .        # formatting
 .venv\Scripts\mypy                         # strict type checking
-.venv\Scripts\pip-audit --skip-editable    # dependency vulnerabilities
+.venv\Scripts\pip-audit --strict --disable-pip --require-hashes -r requirements-dev.lock
 ```
+
+`pip-audit` checks the hash-locked dependency set (what CI installs and Docker deploys), not
+the local virtualenv, so `--strict` works without tripping over the editable install.
 
 Tests never read your `.env`: they build `Settings(_env_file=None)` and clear relevant
 environment variables.

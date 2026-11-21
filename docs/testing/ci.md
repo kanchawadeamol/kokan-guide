@@ -5,14 +5,14 @@ SHAs (version in a trailing comment); Dependabot proposes updates weekly.
 
 ## `ci.yml`: runs on every push to `main` and every pull request
 
-| Job            | What it checks                                                                                                                                                                                                              |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `js`           | `npm ci`, `npm audit --audit-level=moderate`, exactly one React copy, Prettier, ESLint, TypeScript, Vitest/Jest in every workspace                                                                                          |
-| `backend`      | Hash-verified install from `requirements-dev.lock`; Ruff, Mypy, unit tests (coverage ≥ 90%), `pip-audit`; then Docker Compose (PostGIS + migrations + API), integration tests (role privileges), `alembic check`, readiness |
-| `api-contract` | `npm run api:check`: the committed TypeScript API client matches the backend OpenAPI schema                                                                                                                                 |
-| `e2e`          | Playwright against production builds of `admin` and `web` (matrix), including axe WCAG 2.2 AA scans; report uploaded on failure                                                                                             |
-| `mobile`       | `expo-doctor` and a Metro bundle for Android and iOS                                                                                                                                                                        |
-| `hygiene`      | gitleaks over the full git history; actionlint (+ shellcheck) on workflows                                                                                                                                                  |
+| Job            | What it checks                                                                                                                                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `js`           | `npm ci`, `npm audit --audit-level=moderate`, exactly one React copy, Prettier, ESLint, TypeScript, Vitest/Jest in every workspace                                                                                                            |
+| `backend`      | Hash-verified install from `requirements-dev.lock`; Ruff, Mypy, unit tests (coverage ≥ 90%), `pip-audit` of the locked set; then Docker Compose (PostGIS + migrations + API), integration tests (role privileges), `alembic check`, readiness |
+| `api-contract` | `npm run api:check`: the committed TypeScript API client matches the backend OpenAPI schema                                                                                                                                                   |
+| `e2e`          | Playwright against production builds of `admin` and `web` (matrix), including axe WCAG 2.2 AA scans; report uploaded on failure                                                                                                               |
+| `mobile`       | `expo-doctor` and a Metro bundle for Android and iOS                                                                                                                                                                                          |
+| `hygiene`      | gitleaks over the full git history; actionlint (+ shellcheck) on workflows                                                                                                                                                                    |
 
 The backend job creates its `.env` with `scripts/create-dev-env.py` (random secrets, never
 printed) and always tears the stack down with `docker compose down -v`.

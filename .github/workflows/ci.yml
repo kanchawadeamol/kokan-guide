@@ -76,8 +76,8 @@ jobs:
       - run: mypy
       - name: Unit tests (no database)
         run: python -m pytest --cov=app --cov-report=term --cov-fail-under=90
-      - name: Dependency audit
-        run: pip-audit --skip-editable --strict
+      - name: Dependency audit (hash-locked set, no install needed)
+        run: pip-audit --strict --disable-pip --require-hashes -r requirements-dev.lock
 
       - name: Create CI .env with generated secrets
         working-directory: .
