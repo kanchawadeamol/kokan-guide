@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Konkan Discovery",
+    "slug": "konkan-discovery",
+    "version": "0.1.0",
+    "scheme": "konkan",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["android", "ios"],
+    "plugins": ["expo-router", "expo-localization"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

@@ -1,0 +1,10 @@
+import type { ApiClient } from '@konkan/api-client';
+import { createContext, useContext } from 'react';
+
+export const ApiClientContext = createContext<ApiClient | null>(null);
+
+export function useApiClient(): ApiClient {
+  const client = useContext(ApiClientContext);
+  if (!client) throw new Error('useApiClient must be used inside <ApiClientContext>');
+  return client;
+}

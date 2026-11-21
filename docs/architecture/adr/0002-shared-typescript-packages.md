@@ -49,6 +49,14 @@ API client. Each bundler compiles TypeScript itself.
   `npm install <pkg>` can bypass overrides and write a vulnerable nested copy into the lock
   file; `npm install` / `npm ci` honour them. After adding packages, run `npm audit`. CI runs
   it on every change.
+- **2026-11-21, React version and overrides (Sprint 0.7).** Expo SDK 58 requires React
+  exactly `19.3.0` (React Native compares `react` with its renderer at runtime). All apps use
+  19.3.0, enforced by root `overrides` (`react`, `react-dom`) with a single hoisted copy.
+  `glob@>=9.0.0 <=14.0.1` is overridden to 14.0.6 (GHSA-3g3m-2fjr-6pw4) alongside the
+  `minimatch` range override; Jest was verified working with the newer `glob`. npm 11 does
+  not apply these transitive overrides during `npm install <pkg>` or `npm dedupe`. They take
+  effect on a plain `npm install` after stale nested lock entries are removed, and a clean
+  `npm ci` from the committed lock file was verified to have 0 vulnerabilities.
 - **2026-11-21, Next.js lint.** The web app uses `@next/eslint-plugin-next` directly instead of
   `eslint-config-next`, which bundles the original `eslint-plugin-jsx-a11y`.
 

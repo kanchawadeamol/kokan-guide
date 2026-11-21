@@ -1,0 +1,84 @@
+# Mobile app
+
+Expo SDK 58 + React Native 0.88 + Expo Router + TypeScript (strict). Android and iOS.
+Accessibility target: TalkBack / VoiceOver, system text scaling, 48dp touch targets.
+
+## Run
+
+```bash
+docker compose up -d --wait            # from repo root: backend API
+npm run start -w apps/mobile           # Metro + Expo dev tools
+```
+
+The API URL is a build-time public variable. Expo reads `.env*` files from `apps/mobile`, not
+the repository root. Create `apps/mobile/.env.local` (gitignored):
+
+```bash
+# Your computer's LAN IP; 127.0.0.1 on a phone is the phone itself.
+# Android emulator: http://10.0.2.2:8000
+EXPO_PUBLIC_API_URL=http://192.168.1.10:8000
+```
+
+Read it only as the literal `process.env.EXPO_PUBLIC_API_URL`: Expo inlines public
+variables for dot notation only. Each one is declared in `src/env.d.ts`. Never put secrets in
+`EXPO_PUBLIC_*` variables: they ship inside the app bundle.
+
+Note: the dev Compose stack binds the API to `127.0.0.1`. To reach it from a physical device,
+publish it on your LAN IP temporarily, or use the Android emulator (`10.0.2.2`).
+
+If the URL is missing or invalid, the app shows a localized configuration error instead of
+crashing (`src/screens/ConfigErrorScreen.tsx`).
+
+## Structure
+
+```
+app/                 # Expo Router routes (_layout.tsx, index.tsx)
+src/
+  AppProviders.tsx   # SafeArea + i18n + API client providers (also used by tests)
+  i18n/              # messages (en/mr/hi), provider (device languages via expo-localization)
+  theme/useTheme.ts  # light/dark semantic tokens from @konkan/design-tokens
+  components/        # LanguagePicker (accessible radio group)
+  features/          # system-status (shared fetchReadiness from @konkan/api-client)
+  screens/
+.maestro/            # Maestro end-to-end flows
+```
+
+Styles use `StyleSheet.create` with design tokens via `createStyles(theme)` factories, with no
+raw colours or ad-hoc inline styles.
+
+## Tests and checks
+
+```bash
+npm run test -w apps/mobile        # Jest + jest-expo + React Native Testing Library
+npm run typecheck -w apps/mobile
+npm run doctor -w apps/mobile      # expo-doctor: SDK version compatibility, duplicate deps
+```
+
+RNTL 14 notes: `render` and `fireEvent` are async, so always `await` them. `render` flushes
+resolved promises, so test loading states with a request that never settles.
+`react-native-safe-area-context` is mocked in `jest.setup.js` (it renders nothing without
+native inset measurements).
+
+Accessibility is asserted through roles, states and names (what TalkBack/VoiceOver read),
+plus a check that every interactive control has a 48dp minimum height.
+
+### Maestro (end-to-end)
+
+Requires **Java 17+**, the Maestro CLI, a dev build of the app and a running emulator or
+device:
+
+```bash
+npx expo run:android               # dev build (Gradle also needs Java 17+)
+maestro test .maestro -e APP_ID=<android package of the dev build>
+```
+
+The smoke flow (`.maestro/smoke.yaml`) is written but **not yet run**: this machine has
+Java 8. See `docs/development-checklist.md`.
+
+## Monorepo notes
+
+- Expo SDK 58 pins React to exactly `19.3.0`; React Native checks that `react` matches its
+  renderer at runtime. The whole repo uses React 19.3.0 via root `overrides`, with one hoisted
+  copy. `expo-doctor` checks for duplicates.
+- Metro's monorepo support is automatic (SDK 52+); workspace packages are resolved through
+  their `exports` field and compiled from TypeScript source.

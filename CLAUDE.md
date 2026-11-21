@@ -93,6 +93,25 @@ npm run test:e2e -w apps/web     # Playwright (builds + serves on 127.0.0.1:3100
 - Layout/page files may only export Next.js-recognised names (no custom constants).
 - After `npm install <pkg>`, run `npm audit`: it can bypass the `minimatch` override.
 
+### Mobile app (`apps/mobile`)
+
+```bash
+npm run start -w apps/mobile     # Expo dev server (needs apps/mobile/.env.local)
+npm run test -w apps/mobile      # Jest + RNTL (await render/fireEvent)
+npm run doctor -w apps/mobile    # expo-doctor
+```
+
+- Read public config only as literal `process.env.EXPO_PUBLIC_*` (declared in `src/env.d.ts`).
+- Styles via `StyleSheet.create` + design tokens; roles/states/labels on every control.
+- React is pinned to 19.3.0 repo-wide (Expo SDK 58 requirement) via root `overrides`.
+- Maestro and native builds need Java 17+ (machine currently has Java 8).
+
+### Dependency hygiene
+
+- `npm install <pkg>` and `npm dedupe` can bypass root `overrides` (minimatch, glob, react).
+  After changing dependencies: remove stale vulnerable nested lock entries, run plain
+  `npm install`, then confirm `npm audit` is clean and only one React copy exists.
+
 ### Backend (`apps/backend`, venv at `apps/backend/.venv`)
 
 ```bash

@@ -1,0 +1,22 @@
+# Smoke test: app launches, language switching works, connection status renders.
+# Run: maestro test .maestro -e APP_ID=<android package / iOS bundle id of the dev build>
+# Requires Java 17+, the Maestro CLI and a running emulator/simulator or device.
+appId: ${APP_ID}
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: 'language-en'
+- assertVisible: 'Discover the Konkan coast'
+- assertVisible:
+    id: 'api-status'
+- tapOn:
+    id: 'language-mr'
+- assertVisible: 'कोकण किनारपट्टी शोधा'
+- tapOn:
+    id: 'language-hi'
+- assertVisible: 'कोंकण तट की खोज करें'
+- tapOn:
+    id: 'api-status-retry'
+- assertVisible:
+    id: 'api-status'

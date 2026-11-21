@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { axeViolations, jsonResponse, renderWithProviders } from '../../test/render';
 import { ApiStatus } from './ApiStatus';
@@ -46,7 +46,6 @@ describe('ApiStatus', () => {
   });
 
   it('shows an unreachable state on network failure and recovers on retry', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     let calls = 0;
     renderWithProviders(<ApiStatus />, {
       fetch: () => {

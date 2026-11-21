@@ -127,8 +127,26 @@ Only tick an item after it has actually been run and checked.
 
 ### 0.7 Mobile app (`apps/mobile`)
 
-- [ ] Expo SDK 58 + Expo Router + TS strict, Jest + jest-expo, RNTL
-- [ ] Maestro installed and smoke flow (requires Java 17+; machine has Java 8)
+- [x] Expo SDK 58 (expo 58.0.26, RN 0.88.1, Expo Router 58) + TS strict; versions taken from
+      Expo's `bundledNativeModules.json`; `expo-doctor` 20/20 checks pass
+- [x] React aligned repo-wide to 19.3.0 (Expo requirement) with one hoisted copy; web and
+      admin re-verified
+- [x] App shell: Expo Router stack, localized title, design-token theme (light/dark), device
+      language detection (expo-localization), accessible language radio group
+      (`accessibilityLanguage`), connection status with live region and busy state, 48dp
+      targets, localized config-error screen instead of crash
+- [x] Readiness logic moved to `@konkan/api-client` (`fetchReadiness`, 11 tests) and shared by
+      admin and mobile
+- [x] Jest 30 + jest-expo + RNTL 14: 23 tests (roles/states/names, language switch, status
+      states, retry, touch targets, config validation, messages)
+- [x] Metro bundles Android and iOS (`expo export`), with workspace packages resolved and
+      `EXPO_PUBLIC_API_URL` inlined
+- [x] `glob` override (GHSA-3g3m-2fjr-6pw4); `npm audit` 0 vulnerabilities after clean
+      `npm ci`
+- [x] Maestro smoke flow written (`.maestro/smoke.yaml`)
+- [ ] **Run Maestro smoke flow**: needs Java 17+ (machine has Java 8), Maestro CLI, a dev
+      build (`npx expo run:android`, Gradle also needs Java 17+) and an emulator/device
+- [ ] Persist language choice (Sprint 4, with onboarding)
 
 ### 0.8 CI/CD
 
