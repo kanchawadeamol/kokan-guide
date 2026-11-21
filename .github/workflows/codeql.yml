@@ -1,7 +1,7 @@
 # CodeQL static security analysis (SAST).
 #
-# Free for public repositories. On a PRIVATE repository it requires GitHub Advanced Security
-# (a paid feature); without it, uploads fail. Enable deliberately; see docs/testing/ci.md.
+# The repository is public, so CodeQL is free. If it ever becomes private, CodeQL requires
+# GitHub Advanced Security (paid): make this manual-only first. See docs/testing/ci.md.
 name: CodeQL
 
 on:

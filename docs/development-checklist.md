@@ -155,8 +155,8 @@ Only tick an item after it has actually been run and checked.
       Compose stack, integration tests, alembic check, readiness), api-contract, e2e matrix
       (admin, web), mobile (expo-doctor, Metro bundle), hygiene (gitleaks, actionlint)
 - [x] All actions pinned to verified commit SHAs; `permissions: contents: read`
-- [x] `codeql.yml` (JS/TS, Python, Actions; security-extended). **Needs GitHub Advanced
-      Security if the repo is private (paid)**: decide before enabling
+- [x] `codeql.yml` (JS/TS, Python, Actions; security-extended). Repository will be
+      **public** (decided 2026-11-21), so CodeQL is free and runs automatically
 - [x] `dependabot.yml`: npm, pip, Docker, Compose, Actions; React/Expo/TS majors held back
 - [x] `scripts/create-dev-env.py`: `.env` with generated secrets, refuses to overwrite
 - [x] Validated locally: actionlint clean; gitleaks on full history clean (7 commits);

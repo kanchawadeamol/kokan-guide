@@ -38,6 +38,8 @@ Python project (not an npm workspace).
 - AI: backend-only keys; never invent businesses, phone numbers, hours, prices or emergency
   contacts; ground answers in DB records; validate tool calls with Pydantic.
 - Never commit `.env`, secrets, keys. Use `.env.example` for documented placeholders.
+- The GitHub repository is **public**: no personal data or real contact details in seed data
+  or fixtures; a committed secret must be rotated, not just deleted.
 - Ask before destructive changes or activating paid services.
 - TypeScript strict mode everywhere; Ruff + Mypy for Python.
 - Accessibility target: WCAG 2.2 AA.

@@ -22,9 +22,9 @@ exists), container image vulnerability scanning (Sprint 9), deployment (Sprint 1
 
 ## `codeql.yml`: SAST for TypeScript, Python and workflow files
 
-Runs on pushes, pull requests and weekly. **Free on public repositories. On a private
-repository it requires GitHub Advanced Security (paid).** Without it, the upload step fails.
-Decide before making the repository private, or disable the workflow.
+Runs on pushes, pull requests and weekly. The repository is **public** (decided 2026-11-21),
+so CodeQL is free. If the repository ever becomes private, CodeQL needs GitHub Advanced
+Security (paid): switch this workflow to `workflow_dispatch` only before changing visibility.
 
 ## `dependabot.yml`
 
@@ -57,5 +57,18 @@ docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 git /repo --re
 
 - Protect `main`: require pull requests and these status checks: `js`, `backend`,
   `api-contract`, `e2e (admin)`, `e2e (web)`, `mobile`, `hygiene`.
-- Enable secret scanning and push protection (free for public repos).
-- Enable Dependabot security updates.
+- Enable secret scanning and **push protection** (free for public repos): blocks pushes that
+  contain recognised credentials, in addition to gitleaks in CI.
+- Enable Dependabot alerts and security updates.
+- Enable private vulnerability reporting, so researchers can report issues without opening a
+  public issue.
+
+## Public repository rules
+
+Everything committed is world-readable, including the full git history:
+
+- Never commit `.env`, real credentials, production hostnames, or personal data (including
+  real business owners' phone numbers in seed data: use clearly fake values).
+- If a secret is ever committed, **rotate it immediately**. Deleting the commit is not enough.
+- Seed data for Ratnagiri/Raigad must use public information only (region names, public
+  landmarks), never scraped private listings.
