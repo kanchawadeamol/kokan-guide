@@ -17,6 +17,7 @@
   "dependencies": {
     "@konkan/api-client": "0.0.0",
     "@konkan/design-tokens": "0.0.0",
+    "@konkan/sample-data": "0.0.0",
     "@konkan/shared-types": "0.0.0",
     "next": "16.4.6",
     "react": "19.3.0",

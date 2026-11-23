@@ -1,5 +1,5 @@
 # Local development overrides (loaded automatically by `docker compose up`).
-# Ports are bound to 127.0.0.1 only: never reachable from other machines on the network.
+# Ports are bound to 127.0.0.1 by default: not reachable from other machines on the network.
 
 services:
   db:
@@ -17,4 +17,6 @@ services:
     volumes:
       - ./apps/backend/app:/srv/app:ro
     ports:
-      - '127.0.0.1:${API_HOST_PORT:-8000}:8000'
+      # API_BIND_ADDRESS defaults to 127.0.0.1 (this PC only). For phone testing over Wi-Fi,
+      # `npm run mobile:lan` sets it to this PC's LAN IP. The database is never exposed.
+      - '${API_BIND_ADDRESS:-127.0.0.1}:${API_HOST_PORT:-8000}:8000'

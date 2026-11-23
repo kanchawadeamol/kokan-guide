@@ -216,6 +216,24 @@ Dependabot), clean-clone reproducibility.
 - [ ] Import authoritative LGD codes, centroids (and later boundaries)
 - [ ] Hindi place names from a verified source
 
+## UI preview with sample data (requested 2026-11-22)
+
+- [x] `packages/sample-data`: 14 categories (en/mr/hi), 14 fictional businesses ("(Sample)",
+      invalid `+91 00000 NNNNN` phones), 10 real public landmarks (no phone/hours), search across
+      languages, IST-based open-now; 24 tests enforce the labelling rules
+- [x] Web: home (hero search, category grid, popular places), category pages, listing detail
+      (hours table, address, disabled contact actions with descriptions), search page;
+      language links keep the current page; sample pages `noindex`; plural-aware counts
+- [x] Admin: dashboard stats + by-district table, listings table with filters (live count),
+      approvals queue (in-memory approve/reject, announced as not saved); hash routing;
+      skip link no longer changes the route
+- [x] Viewed in the browser pane (web en/mr, admin dashboard/listings/approvals at 1280px)
+- [x] Phone testing setup: `npm run mobile:lan` + configurable `API_BIND_ADDRESS`
+- [x] CI fix: lock file regenerated with npm 11.19.1 (adds missing `@emnapi/*` entries); CI
+      pins npm 11.19.1; `packageManager` set
+- [ ] Mobile preview screens (category grid, listing, detail) using the same data
+- [ ] Verify CI is green on GitHub after the next push
+
 ## Sprint 2 to Sprint 10
 
 Not started. See project brief in `CLAUDE.md`.

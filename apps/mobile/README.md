@@ -3,6 +3,21 @@
 Expo SDK 58 + React Native 0.88 + Expo Router + TypeScript (strict). Android and iOS.
 Accessibility target: TalkBack / VoiceOver, system text scaling, 48dp touch targets.
 
+## Test on your phone (Expo Go, no Android/Java build needed)
+
+1. Install **Expo Go** (Play Store / App Store). Phone and PC on the **same Wi-Fi**.
+2. From the repo root: `npm run mobile:lan`. It finds this PC's Wi-Fi IP, writes
+   `apps/mobile/.env.local` and sets `API_BIND_ADDRESS` in `.env` (this PC's LAN IP only;
+   the database stays private).
+3. `docker compose up -d --wait`: restarts the API listening on that IP. Allow Docker through
+   Windows Firewall if asked. On the phone's browser, `http://<ip>:8000/api/v1/health` should
+   show `{"status":"ok"...}`.
+4. `npm run start -w apps/mobile`, then scan the QR code (Android: in Expo Go; iPhone: Camera
+   app).
+5. When finished: `npm run mobile:lan -- --off && docker compose up -d --wait`.
+
+If the phone cannot connect (guest Wi-Fi, client isolation): `npx expo start --tunnel`.
+
 ## Run
 
 ```bash

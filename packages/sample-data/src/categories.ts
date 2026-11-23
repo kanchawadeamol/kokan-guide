@@ -1,0 +1,173 @@
+import type { SampleCategory } from './types';
+
+/** The 14 home-screen categories from the product brief. Translations need native review. */
+export const categories: readonly SampleCategory[] = [
+  {
+    slug: 'hospitals',
+    group: 'health',
+    icon: 'medkit',
+    emoji: '🏥',
+    name: { en: 'Hospitals', mr: 'रुग्णालये', hi: 'अस्पताल' },
+    description: {
+      en: 'Hospitals and emergency care',
+      mr: 'रुग्णालये आणि आपत्कालीन उपचार',
+      hi: 'अस्पताल और आपातकालीन देखभाल',
+    },
+  },
+  {
+    slug: 'clinics',
+    group: 'health',
+    icon: 'fitness',
+    emoji: '🩺',
+    name: { en: 'Clinics', mr: 'दवाखाने', hi: 'क्लिनिक' },
+    description: {
+      en: 'Doctors and clinics',
+      mr: 'डॉक्टर आणि दवाखाने',
+      hi: 'डॉक्टर और क्लिनिक',
+    },
+  },
+  {
+    slug: 'medical-stores',
+    group: 'health',
+    icon: 'bandage',
+    emoji: '💊',
+    name: { en: 'Medical stores', mr: 'औषध दुकाने', hi: 'मेडिकल स्टोर' },
+    description: {
+      en: 'Pharmacies and chemists',
+      mr: 'औषधालये आणि केमिस्ट',
+      hi: 'दवा की दुकानें और केमिस्ट',
+    },
+  },
+  {
+    slug: 'hotels',
+    group: 'stay',
+    icon: 'bed',
+    emoji: '🏨',
+    name: { en: 'Hotels', mr: 'हॉटेल्स', hi: 'होटल' },
+    description: {
+      en: 'Hotels, homestays and resorts',
+      mr: 'हॉटेल्स, होमस्टे आणि रिसॉर्ट्स',
+      hi: 'होटल, होमस्टे और रिसॉर्ट',
+    },
+  },
+  {
+    slug: 'restaurants',
+    group: 'food',
+    icon: 'restaurant',
+    emoji: '🍽️',
+    name: { en: 'Restaurants', mr: 'उपाहारगृहे', hi: 'रेस्टोरेंट' },
+    description: {
+      en: 'Restaurants and local food',
+      mr: 'उपाहारगृहे आणि स्थानिक पदार्थ',
+      hi: 'रेस्टोरेंट और स्थानीय भोजन',
+    },
+  },
+  {
+    slug: 'auto-drivers',
+    group: 'transport',
+    icon: 'car',
+    emoji: '🛺',
+    name: { en: 'Auto drivers', mr: 'रिक्षा चालक', hi: 'ऑटो चालक' },
+    description: {
+      en: 'Auto rickshaw drivers and stands',
+      mr: 'रिक्षा चालक आणि रिक्षा थांबे',
+      hi: 'ऑटो रिक्शा चालक और स्टैंड',
+    },
+  },
+  {
+    slug: 'taxi-services',
+    group: 'transport',
+    icon: 'car-sport',
+    emoji: '🚕',
+    name: { en: 'Taxi services', mr: 'टॅक्सी सेवा', hi: 'टैक्सी सेवा' },
+    description: {
+      en: 'Taxis and car rentals',
+      mr: 'टॅक्सी आणि भाड्याच्या गाड्या',
+      hi: 'टैक्सी और किराए की गाड़ियाँ',
+    },
+  },
+  {
+    slug: 'tourist-places',
+    group: 'tourism',
+    icon: 'camera',
+    emoji: '📸',
+    name: { en: 'Tourist places', mr: 'पर्यटन स्थळे', hi: 'पर्यटन स्थल' },
+    description: {
+      en: 'Places to visit',
+      mr: 'पाहण्यासारखी ठिकाणे',
+      hi: 'घूमने की जगहें',
+    },
+  },
+  {
+    slug: 'temples',
+    group: 'tourism',
+    icon: 'flower',
+    emoji: '🛕',
+    name: { en: 'Temples', mr: 'मंदिरे', hi: 'मंदिर' },
+    description: {
+      en: 'Temples and places of worship',
+      mr: 'मंदिरे आणि धार्मिक स्थळे',
+      hi: 'मंदिर और धार्मिक स्थल',
+    },
+  },
+  {
+    slug: 'beaches',
+    group: 'tourism',
+    icon: 'umbrella',
+    emoji: '🏖️',
+    name: { en: 'Beaches', mr: 'समुद्रकिनारे', hi: 'समुद्र तट' },
+    description: {
+      en: 'Beaches along the Konkan coast',
+      mr: 'कोकण किनारपट्टीवरील समुद्रकिनारे',
+      hi: 'कोंकण तट के समुद्र तट',
+    },
+  },
+  {
+    slug: 'forts',
+    group: 'tourism',
+    icon: 'flag',
+    emoji: '🏰',
+    name: { en: 'Forts', mr: 'किल्ले', hi: 'किले' },
+    description: {
+      en: 'Sea and hill forts',
+      mr: 'जलदुर्ग आणि गडकिल्ले',
+      hi: 'समुद्री और पहाड़ी किले',
+    },
+  },
+  {
+    slug: 'shopping',
+    group: 'shopping',
+    icon: 'bag-handle',
+    emoji: '🛍️',
+    name: { en: 'Shopping', mr: 'खरेदी', hi: 'खरीदारी' },
+    description: {
+      en: 'Shops and local products',
+      mr: 'दुकाने आणि स्थानिक उत्पादने',
+      hi: 'दुकानें और स्थानीय उत्पाद',
+    },
+  },
+  {
+    slug: 'local-services',
+    group: 'services',
+    icon: 'construct',
+    emoji: '🔧',
+    name: { en: 'Local services', mr: 'स्थानिक सेवा', hi: 'स्थानीय सेवाएँ' },
+    description: {
+      en: 'Electricians, plumbers and more',
+      mr: 'इलेक्ट्रिशियन, प्लंबर आणि इतर',
+      hi: 'इलेक्ट्रीशियन, प्लंबर और अन्य',
+    },
+  },
+  {
+    slug: 'emergency-contacts',
+    group: 'emergency',
+    icon: 'call',
+    emoji: '🚨',
+    name: { en: 'Emergency contacts', mr: 'आपत्कालीन संपर्क', hi: 'आपातकालीन संपर्क' },
+    description: {
+      en: 'Official numbers will be added from verified government sources',
+      mr: 'अधिकृत क्रमांक सत्यापित सरकारी स्रोतांमधून जोडले जातील',
+      hi: 'आधिकारिक नंबर सत्यापित सरकारी स्रोतों से जोड़े जाएँगे',
+    },
+  },
+];

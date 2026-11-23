@@ -1,13 +1,23 @@
 import { AppShell } from './components/AppShell';
-import { ApiStatus } from './features/system-status/ApiStatus';
-import { useI18n } from './i18n/context';
+import { ApprovalsPage } from './features/approvals/ApprovalsPage';
+import { DashboardPage } from './features/dashboard/DashboardPage';
+import { ListingsPage } from './features/listings/ListingsPage';
+import { useRoute } from './navigation/route';
+import { SampleListingsProvider } from './sample/SampleListingsProvider';
 
 export function App() {
-  const { t } = useI18n();
+  const route = useRoute();
   return (
-    <AppShell>
-      <h1>{t.dashboardTitle}</h1>
-      <ApiStatus />
-    </AppShell>
+    <SampleListingsProvider>
+      <AppShell route={route}>
+        {route === 'listings' ? (
+          <ListingsPage />
+        ) : route === 'approvals' ? (
+          <ApprovalsPage />
+        ) : (
+          <DashboardPage />
+        )}
+      </AppShell>
+    </SampleListingsProvider>
   );
 }

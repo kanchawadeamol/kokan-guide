@@ -117,6 +117,11 @@ npm run doctor -w apps/mobile    # expo-doctor
 
 ### Dependency hygiene
 
+- **Use npm 11.19.1 for anything that writes `package-lock.json`** (`packageManager`, CI
+  pins it). npm 11.6.2 omits optional platform entries (`@emnapi/*`) and CI's `npm ci` then
+  fails on Linux. Locally: `npx -y npm@11.19.1 install` or upgrade with
+  `npm install -g npm@11.19.1`.
+
 - `npm install <pkg>` and `npm dedupe` can bypass root `overrides` (minimatch, glob, react).
   After changing dependencies: remove stale vulnerable nested lock entries, run plain
   `npm install`, then confirm `npm audit` is clean and only one React copy exists.

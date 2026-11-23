@@ -10,9 +10,9 @@
   ],
   "engines": {
     "node": ">=24.0.0",
-    "npm": ">=11.0.0"
+    "npm": ">=11.19.0"
   },
-  "packageManager": "npm@11.6.2",
+  "packageManager": "npm@11.19.1",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -21,7 +21,8 @@
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "api:generate": "node scripts/generate-api-client.mjs",
-    "api:check": "node scripts/generate-api-client.mjs --check"
+    "api:check": "node scripts/generate-api-client.mjs --check",
+    "mobile:lan": "node scripts/setup-mobile-lan.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

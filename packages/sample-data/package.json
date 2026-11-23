@@ -1,0 +1,20 @@
+{
+  "name": "@konkan/sample-data",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Clearly-labelled sample data for UI previews until the directory API exists (Sprint 3). Fictional businesses; never shipped as real listings.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@konkan/shared-types": "0.0.0"
+  }
+}

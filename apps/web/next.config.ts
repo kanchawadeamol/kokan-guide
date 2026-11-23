@@ -20,7 +20,12 @@ const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // Shared workspace packages ship TypeScript source (ADR 0002).
-  transpilePackages: ['@konkan/api-client', '@konkan/design-tokens', '@konkan/shared-types'],
+  transpilePackages: [
+    '@konkan/api-client',
+    '@konkan/design-tokens',
+    '@konkan/sample-data',
+    '@konkan/shared-types',
+  ],
   // npm workspaces hoist dependencies to the repository root.
   turbopack: { root: repoRoot },
   outputFileTracingRoot: repoRoot,

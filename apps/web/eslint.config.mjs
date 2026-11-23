@@ -29,6 +29,8 @@ export default tseslint.config(
   {
     files: ['src/**/*.{ts,tsx}'],
     plugins: { '@next/next': nextPlugin, 'react-hooks': reactHooks },
+    // Lets the Next.js rules find this app when ESLint runs from the repository root.
+    settings: { next: { rootDir: import.meta.dirname } },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
