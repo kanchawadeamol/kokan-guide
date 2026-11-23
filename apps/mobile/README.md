@@ -3,6 +3,17 @@
 Expo SDK 58 + React Native 0.88 + Expo Router + TypeScript (strict). Android and iOS.
 Accessibility target: TalkBack / VoiceOver, system text scaling, 48dp touch targets.
 
+## Preview in a browser (quickest)
+
+```bash
+npm run web -w apps/mobile        # http://localhost:8081, use a phone-sized window
+```
+
+Screens: Home, Search, Saved, Profile tabs; category and listing pages; login
+(`/auth/login`, preview OTP **123456**); register; business registration
+(`/business/new`); report and review; settings. All data is clearly-labelled sample data and
+no form sends anything to a server yet.
+
 ## Test on your phone (Expo Go, no Android/Java build needed)
 
 1. Install **Expo Go** (Play Store / App Store). Phone and PC on the **same Wi-Fi**.

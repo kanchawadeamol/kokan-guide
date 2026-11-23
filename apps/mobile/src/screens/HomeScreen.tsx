@@ -1,39 +1,78 @@
-import { spacing, typography } from '@konkan/design-tokens';
-import type { ColorTheme } from '@konkan/design-tokens';
-import { useMemo } from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { radius, spacing } from '@konkan/design-tokens';
+import { listCategories, popularListings } from '@konkan/sample-data';
+import { useRouter } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { LanguagePicker } from '../components/LanguagePicker';
-import { ApiStatus } from '../features/system-status/ApiStatus';
+import { CategoryTile, ListingCard } from '../components/listing';
 import { useI18n } from '../i18n/context';
-import { useTheme } from '../theme/useTheme';
+import { SampleBanner } from '../ui/controls';
+import { Icon } from '../ui/Icon';
+import { useSharedStyles } from '../ui/styles';
 
 export function HomeScreen() {
   const { t } = useI18n();
-  const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
+  const router = useRouter();
+  const { styles, theme } = useSharedStyles();
 
   return (
-    <ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="automatic"
-    >
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <View style={[local.hero, { backgroundColor: theme.primary }]}>
+        <Text accessibilityRole="header" style={[styles.title, { color: theme.onPrimary }]}>
+          {t.homeHeading}
+        </Text>
+        <Text style={[styles.body, { color: theme.onPrimary }]}>{t.homeIntro}</Text>
+        <Pressable
+          accessibilityRole="search"
+          accessibilityLabel={t.searchLabel}
+          accessibilityHint={t.searchPlaceholder}
+          onPress={() => {
+            router.push('/search');
+          }}
+          style={[
+            local.searchBox,
+            { backgroundColor: theme.surface, borderColor: theme.borderStrong },
+          ]}
+          testID="home-search"
+        >
+          <Icon name="search" color={theme.textMuted} />
+          <Text style={styles.muted}>{t.searchPlaceholder}</Text>
+        </Pressable>
+      </View>
+
+      <SampleBanner />
+
       <Text accessibilityRole="header" style={styles.heading}>
-        {t.homeHeading}
+        {t.categoriesHeading}
       </Text>
-      <Text style={styles.intro}>{t.homeIntro}</Text>
-      <LanguagePicker />
-      <ApiStatus />
+      <View style={local.grid}>
+        {listCategories().map((category) => (
+          <CategoryTile key={category.slug} category={category} />
+        ))}
+      </View>
+
+      <Text accessibilityRole="header" style={styles.heading}>
+        {t.popularHeading}
+      </Text>
+      <View style={local.list}>
+        {popularListings().map((listing) => (
+          <ListingCard key={listing.slug} listing={listing} />
+        ))}
+      </View>
     </ScrollView>
   );
 }
 
-function createStyles(theme: Readonly<ColorTheme>) {
-  return StyleSheet.create({
-    screen: { flex: 1, backgroundColor: theme.background },
-    content: { padding: spacing.lg, paddingBottom: spacing.xxxl },
-    heading: { ...typography.title, color: theme.text, marginBottom: spacing.sm },
-    intro: { ...typography.body, color: theme.textMuted, marginBottom: spacing.xl },
-  });
-}
+const local = StyleSheet.create({
+  hero: { borderRadius: radius.xl, padding: spacing.xl, gap: spacing.md },
+  searchBox: {
+    minHeight: 52,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    paddingHorizontal: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  list: { gap: spacing.md },
+});

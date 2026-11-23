@@ -77,3 +77,6 @@ desktop.ini
 
 # ---------- Claude Code (local only) ----------
 .claude/settings.local.json
+
+# Real data files for import (never commit: public repo)
+/data/

@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 
 import {
   categories,
+  districts,
+  getDistrict,
   getCategory,
   getListing,
   getPlace,
@@ -156,5 +158,29 @@ describe('openStatus (Indian Standard Time)', () => {
   it('recognises all-day periods', () => {
     expect(isAllDay({ day: 1, open: '00:00', close: '23:59' })).toBe(true);
     expect(isAllDay({ day: 1, open: '09:00', close: '18:00' })).toBe(false);
+  });
+});
+
+describe('districts for form pickers', () => {
+  it('mirror the database seed: Ratnagiri 9 talukas, Raigad 15', () => {
+    expect(districts.map((d) => d.slug)).toEqual(['ratnagiri', 'raigad']);
+    expect(getDistrict('ratnagiri')?.talukas).toHaveLength(9);
+    expect(getDistrict('raigad')?.talukas).toHaveLength(15);
+  });
+
+  it('cover every place used by sample listings', () => {
+    for (const p of places) {
+      const district = getDistrict(p.district);
+      expect(
+        district?.talukas.map((t) => t.slug),
+        p.slug,
+      ).toContain(p.taluka);
+    }
+  });
+
+  it('fall back to the Marathi spelling for Hindi place names', () => {
+    for (const d of districts) {
+      for (const t of d.talukas) expect(t.name.hi).toBe(t.name.mr);
+    }
   });
 });

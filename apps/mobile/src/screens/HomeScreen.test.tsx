@@ -1,112 +1,75 @@
-import { minTouchTarget } from '@konkan/design-tokens';
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { fireEvent, screen, waitFor } from 'expo-router/testing-library';
 
-import { jsonResponse, renderWithProviders } from '../test/render';
-import { HomeScreen } from './HomeScreen';
+import { renderApp } from '../test/router';
 
-const READY = { status: 'ready', checks: { database: 'ok', postgis: 'ok', migrations: 'ok' } };
-const NOT_READY = {
-  status: 'unavailable',
-  checks: { database: 'fail', postgis: 'fail', migrations: 'fail' },
-};
+describe('home', () => {
+  it('shows the sample notice, all 14 categories and popular places', async () => {
+    await renderApp();
 
-describe('HomeScreen', () => {
-  it('shows a heading and announces connection status', async () => {
-    await renderWithProviders(<HomeScreen />, { fetch: () => jsonResponse(READY) });
+    expect(
+      await screen.findByRole('header', { name: 'Discover the Konkan coast' }),
+    ).toBeOnTheScreen();
+    expect(screen.getByText(/Sample data for preview/)).toBeOnTheScreen();
+    expect(screen.getAllByTestId(/^category-/)).toHaveLength(14);
+    expect(screen.getByTestId('listing-kolaba-fort')).toBeOnTheScreen();
+  });
 
-    expect(screen.getByRole('header', { name: 'Discover the Konkan coast' })).toBeOnTheScreen();
+  it('opens a category and then a listing', async () => {
+    await renderApp();
+    await screen.findByTestId('category-hospitals');
+
+    await fireEvent.press(screen.getByTestId('category-hospitals'));
+    expect(await screen.findByRole('header', { name: 'Hospitals' })).toBeOnTheScreen();
+    expect(screen.getByText('2 listings')).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByTestId('listing-sample-care-hospital-chiplun'));
+    expect(await screen.findByRole('header', { name: 'Care Hospital (Sample)' })).toBeOnTheScreen();
+  });
+
+  it('category tiles announce name and listing count', async () => {
+    await renderApp();
+    expect(await screen.findByRole('link', { name: 'Auto drivers, 1 listing' })).toBeOnTheScreen();
+  });
+
+  it('renders in Marathi', async () => {
+    await renderApp({ locale: 'mr' });
+    expect(await screen.findByRole('header', { name: 'कोकण किनारपट्टी शोधा' })).toBeOnTheScreen();
+    expect(screen.getByRole('link', { name: /^रुग्णालये/ })).toBeOnTheScreen();
+  });
+});
+
+describe('search', () => {
+  it('finds listings in any language and announces the count', async () => {
+    await renderApp({ initialUrl: '/search' });
+    const input = await screen.findByTestId('search-input');
+
+    await fireEvent.changeText(input, 'beach');
+    expect(screen.getByTestId('search-summary')).toHaveTextContent(/results/);
+    expect(screen.getByTestId('listing-kashid-beach')).toBeOnTheScreen();
+
+    await fireEvent.changeText(input, 'zzzz');
     await waitFor(() => {
-      expect(screen.getByTestId('api-status')).toHaveTextContent(/Connected/);
-    });
-    expect(screen.getByTestId('api-status').props['accessibilityLiveRegion']).toBe('polite');
-  });
-
-  it('calls the readiness endpoint', async () => {
-    const { fetch } = await renderWithProviders(<HomeScreen />, {
-      fetch: () => jsonResponse(READY),
-    });
-
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledTimes(1);
-    });
-    expect(fetch.mock.calls[0]?.[0].url).toBe('http://api.test/api/v1/health/ready');
-  });
-
-  it('shows a friendly message when the service is not ready', async () => {
-    await renderWithProviders(<HomeScreen />, { fetch: () => jsonResponse(NOT_READY, 503) });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('api-status')).toHaveTextContent(
-        /Service is temporarily unavailable/,
-      );
+      expect(screen.getByTestId('search-summary')).toHaveTextContent('No results for “zzzz”.');
     });
   });
+});
 
-  it('recovers via "Try again" after a network failure', async () => {
-    let calls = 0;
-    await renderWithProviders(<HomeScreen />, {
-      fetch: () => {
-        calls += 1;
-        if (calls === 1) throw new TypeError('Network request failed');
-        return jsonResponse(READY);
-      },
-    });
+describe('listing details', () => {
+  it('shows placeholder phone, hours and disabled contact actions', async () => {
+    await renderApp({ initialUrl: '/listing/sample-family-clinic-dapoli' });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('api-status')).toHaveTextContent(/Cannot connect/);
-    });
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
-    await waitFor(() => {
-      expect(screen.getByTestId('api-status')).toHaveTextContent(/Connected/);
-    });
+    expect(await screen.findByText('+91 00000 00003')).toBeOnTheScreen();
+    expect(screen.getByLabelText(/Sunday: Closed/)).toBeOnTheScreen();
+    const call = screen.getByRole('button', { name: 'Call' });
+    expect(call).toBeDisabled();
+    expect(call.props['accessibilityHint']).toBe('Disabled for sample data');
   });
 
-  it('shows a checking state and marks the retry button busy while the request is pending', async () => {
-    // RNTL 14's async render flushes resolved requests, so use one that never settles.
-    await renderWithProviders(<HomeScreen />, {
-      fetch: () => new Promise<Response>(() => undefined),
-    });
+  it('never shows invented phone numbers or hours for landmarks', async () => {
+    await renderApp({ initialUrl: '/listing/murud-janjira-fort' });
 
-    expect(screen.getByTestId('api-status')).toHaveTextContent(/Checking connection/);
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeBusy();
-  });
-
-  it('offers languages as a radio group named in their own scripts', async () => {
-    await renderWithProviders(<HomeScreen />, { fetch: () => jsonResponse(READY) });
-
-    const radios = screen.getAllByRole('radio');
-    expect(radios.map((r) => String(r.props['accessibilityLanguage']))).toEqual([
-      'mr-IN',
-      'en-IN',
-      'hi-IN',
-    ]);
-    expect(screen.getByRole('radio', { name: 'English' })).toBeChecked();
-    expect(screen.getByRole('radio', { name: 'मराठी' })).not.toBeChecked();
-  });
-
-  it('switches the UI to Marathi', async () => {
-    await renderWithProviders(<HomeScreen />, { fetch: () => jsonResponse(READY) });
-
-    await fireEvent.press(screen.getByRole('radio', { name: 'मराठी' }));
-
-    expect(screen.getByRole('radio', { name: 'मराठी' })).toBeChecked();
-    expect(screen.getByRole('header', { name: 'कोकण किनारपट्टी शोधा' })).toBeOnTheScreen();
-    await waitFor(() => {
-      expect(screen.getByTestId('api-status')).toHaveTextContent(/जोडलेले/);
-    });
-  });
-
-  it('gives every interactive control a role, a name and a 48dp touch target', async () => {
-    await renderWithProviders(<HomeScreen />, { fetch: () => jsonResponse(READY) });
-
-    const controls = [...screen.getAllByRole('button'), ...screen.getAllByRole('radio')];
-    expect(controls).toHaveLength(4);
-    for (const control of controls) {
-      expect(control).toHaveAccessibleName();
-      const style = StyleSheet.flatten(control.props['style'] as StyleProp<ViewStyle>);
-      expect(style?.minHeight).toBeGreaterThanOrEqual(minTouchTarget);
-    }
+    expect(await screen.findByText('No contact details for this place.')).toBeOnTheScreen();
+    expect(screen.getByText('Opening hours not available')).toBeOnTheScreen();
+    expect(screen.queryByRole('button', { name: 'Call' })).not.toBeOnTheScreen();
   });
 });

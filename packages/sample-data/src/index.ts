@@ -26,3 +26,5 @@ export type {
   Translations,
   VerificationStatus,
 } from './types';
+export { districts, getDistrict } from './regions';
+export type { DistrictOption, RegionOption } from './regions';

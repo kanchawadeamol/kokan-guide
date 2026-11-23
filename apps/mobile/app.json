@@ -6,10 +6,29 @@
     "scheme": "konkan",
     "orientation": "default",
     "userInterfaceStyle": "automatic",
-    "platforms": ["android", "ios"],
-    "plugins": ["expo-router", "expo-localization"],
+    "platforms": ["android", "ios", "web"],
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Konkan Discovery to use your photos for your business listing."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Konkan Discovery to use your location to place your business on the map."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
     }
   }
 }

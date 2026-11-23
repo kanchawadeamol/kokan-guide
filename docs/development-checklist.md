@@ -231,7 +231,22 @@ Dependabot), clean-clone reproducibility.
 - [x] Phone testing setup: `npm run mobile:lan` + configurable `API_BIND_ADDRESS`
 - [x] CI fix: lock file regenerated with npm 11.19.1 (adds missing `@emnapi/*` entries); CI
       pins npm 11.19.1; `packageManager` set
-- [ ] Mobile preview screens (category grid, listing, detail) using the same data
+- [x] Mobile app design (requested 2026-11-23; phone OTP + Google, guest browsing):
+  - Tabs Home / Search / Saved / Profile; category, listing detail (save, review, report)
+  - Login (phone + OTP; Google shown, disabled until configured), OTP (preview code
+    `123456`, resend countdown), register (name, district, taluka, consent)
+  - Guests browse freely; save/review/report/register-business require login and return
+    to where the user started
+  - 5-step business registration (details, address, contacts, hours, photos + location),
+    review screen; profile edit; settings (language, notifications, status); report; review
+  - Accessible form kit (labels, hints, live-region errors, pickers, radios, checkboxes,
+    48dp targets, explicit labels so icons never pollute names)
+  - Expo web mode for previewing screens in a browser
+  - Tests: 69 Jest tests incl. full guest -> OTP -> register -> back flow, 5-step form,
+    validation (Indian mobile numbers, OTP, PIN code, hours), touch targets
+- [x] Data-entry guide `docs/data/adding-data.md` + `businesses-template.csv`
+- [ ] Real OTP via backend + SMS provider (Sprint 2; paid service, ask before enabling)
+- [ ] Google sign-in (needs a Google Cloud OAuth client)
 - [ ] Verify CI is green on GitHub after the next push
 
 ## Sprint 2 to Sprint 10
