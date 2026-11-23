@@ -12,7 +12,7 @@ export function ProfileScreen() {
   const { t, locale } = useI18n();
   const { styles } = useSharedStyles();
   const router = useRouter();
-  const { user, signOut } = useSession();
+  const { user, saved, signOut } = useSession();
   const requireLogin = useRequireLogin();
 
   const district = user ? getDistrict(user.district) : undefined;
@@ -54,6 +54,34 @@ export function ProfileScreen() {
           />
         </View>
       )}
+
+      {user ? (
+        <View style={styles.card} testID="profile-account">
+          <Text accessibilityRole="header" style={styles.heading}>
+            {t.myAccountHeading}
+          </Text>
+          <Button
+            label={`${t.featureSaved} (${String(saved.length)})`}
+            icon="heart-outline"
+            variant="secondary"
+            onPress={() => {
+              router.push('/saved');
+            }}
+            testID="profile-favourites"
+          />
+          <Button
+            label={t.featureOwner}
+            icon="stats-chart-outline"
+            variant="secondary"
+            onPress={() => {
+              router.push('/owner');
+            }}
+            testID="profile-owner"
+          />
+          <Text style={styles.label}>{t.myReviews}</Text>
+          <Text style={styles.muted}>{t.noReviewsYet}</Text>
+        </View>
+      ) : null}
 
       <Button
         label={t.addBusiness}

@@ -24,6 +24,15 @@ export default tseslint.config(
       ...jsxA11y.configs.strict.languageOptions,
       globals: { ...globals.browser },
     },
+    rules: {
+      ...jsxA11y.configs.strict.rules,
+      // Scrollable table wrappers are labelled regions with tabIndex=0 so keyboard users can
+      // scroll them (axe scrollable-region-focusable, WCAG 2.1.1).
+      'jsx-a11y-x/no-noninteractive-tabindex': [
+        'error',
+        { tags: [], roles: ['tabpanel', 'region'], allowExpressionValues: true },
+      ],
+    },
   },
   {
     files: ['src/**/*.{ts,tsx}'],

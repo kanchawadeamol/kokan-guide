@@ -1,5 +1,4 @@
 import { districts, getDistrict } from '@konkan/sample-data';
-import type { Href } from 'expo-router';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, Text } from 'react-native';
@@ -41,7 +40,7 @@ export function RegisterScreen({ phone, next }: { phone: string; next?: string |
     signIn({ name: form.name.trim(), phone, district: form.district, taluka: form.taluka });
     // Return to where the guest started (e.g. the listing they tried to save): pops back to it
     // if it is in the stack, otherwise navigates there.
-    router.dismissTo((next ?? '/') as Href);
+    router.dismissTo(next ?? '/');
   };
 
   return (

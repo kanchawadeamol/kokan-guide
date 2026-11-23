@@ -34,17 +34,18 @@
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(12rem, 16rem) 1fr;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
   min-height: calc(100vh - 4.5rem);
 }
 
 @media (max-width: 767px) {
   .layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .nav {
+  min-width: 0;
   padding: 1rem;
   background: var(--color-surface-muted);
 }
@@ -86,6 +87,7 @@
 }
 
 .main {
+  min-width: 0;
   padding: 1.5rem;
 }
 

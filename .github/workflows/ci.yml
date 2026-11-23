@@ -77,7 +77,8 @@ jobs:
         run: ruff check scripts && ruff format --check scripts
       - run: mypy
       - name: Unit tests (no database)
-        run: python -m pytest --cov=app --cov-report=term --cov-fail-under=90
+        # Coverage is collected here and enforced after the integration tests (combined).
+        run: python -m pytest --cov=app --cov-report=
       - name: Dependency audit (hash-locked set, no install needed)
         run: pip-audit --strict --disable-pip --require-hashes -r requirements-dev.lock
 
@@ -87,8 +88,10 @@ jobs:
       - name: Start PostGIS, migrations and API (Docker Compose)
         working-directory: .
         run: docker compose up -d --build --wait --wait-timeout 300
-      - name: Integration tests (live database, role privileges)
-        run: python -m pytest -m integration
+      - name: Integration tests + combined coverage gate (>= 90%)
+        run: >-
+          python -m pytest -m integration
+          --cov=app --cov-append --cov-report=term --cov-fail-under=90
       - name: Migrations match models
         run: alembic check
       - name: API readiness through the container

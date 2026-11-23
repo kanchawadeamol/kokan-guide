@@ -3,7 +3,9 @@ import { listCategories, popularListings } from '@konkan/sample-data';
 import { useRouter } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { FeatureCard } from '../components/FeatureCard';
 import { CategoryTile, ListingCard } from '../components/listing';
+import { FEATURES } from '../features/catalogue';
 import { useI18n } from '../i18n/context';
 import { SampleBanner } from '../ui/controls';
 import { Icon } from '../ui/Icon';
@@ -40,6 +42,16 @@ export function HomeScreen() {
       </View>
 
       <SampleBanner />
+
+      {/* Dashboard: every feature with a short description and its access badge. */}
+      <Text accessibilityRole="header" style={styles.heading}>
+        {t.exploreHeading}
+      </Text>
+      <View style={local.list}>
+        {FEATURES.map((feature) => (
+          <FeatureCard key={feature.id} feature={feature} />
+        ))}
+      </View>
 
       <Text accessibilityRole="header" style={styles.heading}>
         {t.categoriesHeading}

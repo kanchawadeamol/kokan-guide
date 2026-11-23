@@ -9,10 +9,12 @@ Accessibility target: TalkBack / VoiceOver, system text scaling, 48dp touch targ
 npm run web -w apps/mobile        # http://localhost:8081, use a phone-sized window
 ```
 
-Screens: Home, Search, Saved, Profile tabs; category and listing pages; login
+Screens: Home dashboard (every feature with a description and "Login required" / "Coming
+soon" badges), Search, Saved, Profile tabs; owner dashboard (`/owner`); coming-soon pages
+(`/feature/map`, `/feature/assistant`, `/feature/trip`); category and listing pages; login
 (`/auth/login`, preview OTP **123456**); register; business registration
 (`/business/new`); report and review; settings. All data is clearly-labelled sample data and
-no form sends anything to a server yet.
+no form sends anything to a server yet. Which features need login: `docs/mobile/access.md`.
 
 ## Test on your phone (Expo Go, no Android/Java build needed)
 
@@ -28,6 +30,24 @@ no form sends anything to a server yet.
 5. When finished: `npm run mobile:lan -- --off && docker compose up -d --wait`.
 
 If the phone cannot connect (guest Wi-Fi, client isolation): `npx expo start --tunnel`.
+
+## Test in the Android Studio emulator (Expo Go)
+
+No native build and no Java 17 needed: Expo Go runs the JavaScript bundle on the emulator.
+
+1. Android Studio → **Device Manager** → start a virtual device (any API 29+ image, e.g.
+   "Pixel 3 API 29"). Or from a terminal:
+   `& "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Pixel_3_API_29`
+2. Point the app at the API through the emulator's host alias. In `apps/mobile/.env.local`:
+   `EXPO_PUBLIC_API_URL=http://10.0.2.2:8000` (`10.0.2.2` is this PC's `127.0.0.1` as seen
+   from the emulator, so the default Compose binding works unchanged).
+3. From the repo root: `docker compose up -d --wait`.
+4. `npm run android -w apps/mobile`. Expo installs Expo Go on the emulator the first time and
+   opens the app. Press `r` in the terminal to reload, `m` for the dev menu.
+
+If Expo cannot find the emulator, check `adb devices` (in
+`%LOCALAPPDATA%\Android\Sdk\platform-tools`) lists it. A standalone APK
+(`npx expo run:android` or an EAS build) needs Java 17+; this machine has Java 8.
 
 ## Run
 

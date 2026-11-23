@@ -57,7 +57,13 @@ export function DashboardPage() {
         <h2 id="district-heading" className={styles.sectionTitle}>
           {t.byDistrictHeading}
         </h2>
-        <div className={styles.tableWrap}>
+        {/* Focusable so keyboard users can scroll the table when it overflows (WCAG 2.1.1). */}
+        <div
+          className={styles.tableWrap}
+          role="region"
+          aria-labelledby="district-heading"
+          tabIndex={0}
+        >
           <table className={styles.table}>
             <thead>
               <tr>

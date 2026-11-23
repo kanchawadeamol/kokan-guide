@@ -262,3 +262,18 @@ async def test_migration_round_trip(migrator_conn: AsyncConnection) -> None:
 
     tables = await migrator_conn.run_sync(run)
     assert tables == sorted(REGION_TABLES)
+
+
+def test_seed_cli_dry_run_reports_and_rolls_back(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """`python -m app.seed --dry-run`: prints a report and leaves the database unchanged."""
+    from app.seed.__main__ import main
+
+    monkeypatch.setattr("sys.argv", ["app.seed", "--dry-run"])
+    assert main() == 0
+
+    out = capsys.readouterr().out
+    assert "Region seed DRY RUN (rolled back):" in out
+    assert "talukas=24" in out
+    assert "villages=34" in out

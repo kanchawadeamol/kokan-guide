@@ -32,6 +32,8 @@ function RootStack() {
         <Stack.Screen name="review/[slug]" options={{ title: t.reviewTitle }} />
         <Stack.Screen name="profile/edit" options={{ title: t.editProfile }} />
         <Stack.Screen name="settings" options={{ title: t.settingsTitle }} />
+        <Stack.Screen name="owner" options={{ title: t.ownerTitle }} />
+        <Stack.Screen name="feature/[id]" options={{ title: t.badgeSoon }} />
       </Stack>
     </>
   );

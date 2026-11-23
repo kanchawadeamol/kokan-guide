@@ -245,6 +245,17 @@ Dependabot), clean-clone reproducibility.
   - Tests: 69 Jest tests incl. full guest -> OTP -> register -> back flow, 5-step form,
     validation (Indian mobile numbers, OTP, PIN code, hours), touch targets
 - [x] Data-entry guide `docs/data/adding-data.md` + `businesses-template.csv`
+- [x] Home dashboard (requested 2026-11-24): every feature with a description and
+      "Login required" / "Coming soon" badges (announced to screen readers); owner dashboard
+      (`/owner`, sample stats labelled as such); coming-soon pages for map, AI assistant, trip
+      planner; profile "My account" section. Login-only routes wrapped in `LoginGate` (deep
+      links covered). Rules in `docs/mobile/access.md`; 82 Jest tests pass
+- [x] Android Studio emulator instructions (Expo Go, `10.0.2.2`) in `apps/mobile/README.md`
+      (not yet run on an emulator here)
+- [x] CI fixes for bff3611: removed `typedRoutes` (generated types only existed locally, so
+      lint differed in CI); backend coverage gate now on unit + integration combined (95%)
+      with a seed CLI dry-run test; admin layout grid `minmax(0, 1fr)` stops mobile overflow,
+      and overflowing tables are focusable labelled regions (axe scrollable-region-focusable)
 - [ ] Real OTP via backend + SMS provider (Sprint 2; paid service, ask before enabling)
 - [ ] Google sign-in (needs a Google Cloud OAuth client)
 - [ ] Verify CI is green on GitHub after the next push

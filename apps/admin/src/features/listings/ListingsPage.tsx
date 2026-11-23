@@ -123,7 +123,13 @@ export function ListingsPage() {
         {format(t.resultsCount, { count: filtered.length, total: listings.length })}
       </p>
 
-      <div className={styles.tableWrap}>
+      {/* Focusable so keyboard users can scroll the table when it overflows (WCAG 2.1.1). */}
+      <div
+        className={styles.tableWrap}
+        role="region"
+        aria-label={t.listingsTableCaption}
+        tabIndex={0}
+      >
         <table className={styles.table}>
           <caption>{t.listingsTableCaption}</caption>
           <thead>

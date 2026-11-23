@@ -13,7 +13,9 @@ import OtpRoute from '../../app/auth/otp';
 import RegisterRoute from '../../app/auth/register';
 import BusinessRoute from '../../app/business/new';
 import CategoryRoute from '../../app/category/[slug]';
+import FeatureRoute from '../../app/feature/[id]';
 import ListingRoute from '../../app/listing/[slug]';
+import OwnerRoute from '../../app/owner';
 import EditProfileRoute from '../../app/profile/edit';
 import ReportRoute from '../../app/report/[slug]';
 import ReviewRoute from '../../app/review/[slug]';
@@ -79,6 +81,8 @@ export function renderApp({
       'report/[slug]': ReportRoute,
       'review/[slug]': ReviewRoute,
       settings: SettingsRoute,
+      owner: OwnerRoute,
+      'feature/[id]': FeatureRoute,
     },
     { initialUrl },
   );
